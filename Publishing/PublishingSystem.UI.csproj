@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PublishingSystem.BLL\PublishingSystem.BLL.csproj" />
+    <ProjectReference Include="..\PublishingSystem.DAL\PublishingSystem.DAL.csproj" />
+    <ProjectReference Include="..\PublishingSystem.DTO\PublishingSystem.DTO.csproj" />
+    <ProjectReference Include="..\PublishingSystem.Models\PublishingSystem.Models.csproj" />
+  </ItemGroup>
+
+</Project>
