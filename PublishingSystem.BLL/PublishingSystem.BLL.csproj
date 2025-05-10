@@ -15,4 +15,10 @@
     <ProjectReference Include="..\PublishingSystem.Models\PublishingSystem.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="admins.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

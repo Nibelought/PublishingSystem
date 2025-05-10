@@ -3,66 +3,101 @@ using System.Data;
 using System.Linq;
 using Dapper;
 using PublishingSystem.Models;
-using PublishingSystem.DTO;
 
 namespace PublishingSystem.DAL
 {
     public class UserRepository
     {
-        public int CreateUser(UserCreateDto dto, string hashedPassword)
+        private static readonly string[] Roles = { "author", "editor", "critic", "designer" };
+
+        public User GetUserByEmail(string email)
         {
             using (var connection = DbContext.GetConnection())
             {
-                var sql = @"INSERT INTO users (first_name, last_name, email, password_hash, is_active)
-                            VALUES (@FirstName, @LastName, @Email, @PasswordHash, @IsActive)
-                            RETURNING id";
-
-                int userId = connection.QuerySingle<int>(sql, new
+                foreach (var role in Roles)
                 {
-                    dto.FirstName,
-                    dto.LastName,
-                    dto.Email,
-                    PasswordHash = hashedPassword,
-                    dto.IsActive
-                });
+                    var sql = $@"
+                        SELECT id, first_name AS FirstName, last_name AS LastName,
+                               email, password AS Password, status,
+                               '{role}' AS Role
+                        FROM {role}
+                        WHERE email = @Email
+                        LIMIT 1";
 
-                string roleInsert = dto.Role switch
-                {
-                    "author" => "INSERT INTO authors (user_id) VALUES (@UserId)",
-                    "editor" => "INSERT INTO editors (user_id) VALUES (@UserId)",
-                    "critic" => "INSERT INTO critics (user_id) VALUES (@UserId)",
-                    "designer" => "INSERT INTO designers (user_id) VALUES (@UserId)",
-                    _ => null
-                };
-
-                if (roleInsert != null)
-                {
-                    connection.Execute(roleInsert, new { UserId = userId });
+                    var user = connection.QueryFirstOrDefault<User>(sql, new { Email = email });
+                    if (user != null)
+                        return user;
                 }
-
-                return userId;
+                return null;
             }
         }
 
-        public List<User> GetUsers(string role = null, bool? isActive = null, string email = null)
+        public int CreateUser(string role, User user)
         {
             using (var connection = DbContext.GetConnection())
             {
-                var sql = @"SELECT u.* FROM users u
-                            LEFT JOIN authors a ON u.id = a.user_id
-                            LEFT JOIN editors e ON u.id = e.user_id
-                            LEFT JOIN critics c ON u.id = c.user_id
-                            LEFT JOIN designers d ON u.id = d.user_id
-                            WHERE (COALESCE(@Role, '') = '' OR 
-                                  (@Role = 'author' AND a.user_id IS NOT NULL) OR
-                                  (@Role = 'editor' AND e.user_id IS NOT NULL) OR
-                                  (@Role = 'critic' AND c.user_id IS NOT NULL) OR
-                                  (@Role = 'designer' AND d.user_id IS NOT NULL))
-                              AND (@IsActive IS NULL OR u.is_active = @IsActive)
-                              AND (@Email IS NULL OR u.email ILIKE '%' || @Email || '%')
-                            ORDER BY u.id";
+                var sql = $@"
+                    INSERT INTO {role} (first_name, last_name, email, password, status)
+                    VALUES (@FirstName, @LastName, @Email, @Password, @Status)
+                    RETURNING id";
 
-                return connection.Query<User>(sql, new { Role = role, IsActive = isActive, Email = email }).ToList();
+                return connection.QuerySingle<int>(sql, new
+                {
+                    user.FirstName,
+                    user.LastName,
+                    user.Email,
+                    user.Password,
+                    user.Status
+                });
+            }
+        }
+
+        public void UpdateUser(User user)
+        {
+            using (var connection = DbContext.GetConnection())
+            {
+                var sql = $@"
+                    UPDATE {user.Role}
+                    SET first_name = @FirstName,
+                        last_name = @LastName,
+                        status = @Status
+                    WHERE id = @Id";
+
+                connection.Execute(sql, user);
+            }
+        }
+
+        public void DeleteUser(User user)
+        {
+            using (var connection = DbContext.GetConnection())
+            {
+                var sql = $"DELETE FROM {user.Role} WHERE id = @Id";
+                connection.Execute(sql, new { user.Id });
+            }
+        }
+
+        public List<User> GetUsers(string role = null, string status = null, string email = null)
+        {
+            using (var connection = DbContext.GetConnection())
+            {
+                var rolesToQuery = string.IsNullOrEmpty(role) ? Roles : new[] { role };
+                var allUsers = new List<User>();
+
+                foreach (var r in rolesToQuery)
+                {
+                    var sql = $@"
+                        SELECT id, first_name AS FirstName, last_name AS LastName,
+                               email, password AS Password, status,
+                               '{r}' AS Role
+                        FROM {r}
+                        WHERE (@Status IS NULL OR status = @Status)
+                          AND (@Email IS NULL OR email ILIKE '%' || @Email || '%')";
+
+                    var users = connection.Query<User>(sql, new { Status = status, Email = email }).ToList();
+                    allUsers.AddRange(users);
+                }
+
+                return allUsers.OrderBy(u => u.Id).ToList();
             }
         }
     }

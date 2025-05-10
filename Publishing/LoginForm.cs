@@ -32,25 +32,24 @@ namespace Publishing
 
             try
             {
-                User? user = UserService.Authenticate(email, password);
+                var userService = new UserService();
+                User? user = userService.Authenticate(email, password);
                 if (user == null)
                 {
                     ShowError("Invalid login or password.");
                     return;
                 }
 
+
                 MessageBox.Show($"Welcome, {user.FirstName} {user.LastName} ({user.Role})", "Login Successful");
 
+                Form dashboard = AdminConfig.IsAdmin(user.Email)
+                    ? new AdminDashboardForm(user)
+                    : new Form { Text = $"Dashboard: {user.Role.ToUpper()}" };
+
                 this.Hide();
-
-                Form dashboard = user.Role switch
-                {
-                    "admin" => new AdminDashboardForm(user),
-                    _ => new Form { Text = $"Dashboard: {user.Role.ToUpper()}" }
-                };
-
-                dashboard.FormClosed += (s, args) => this.Close();
-                dashboard.Show();
+                dashboard.ShowDialog();
+                this.Close();
 
             }
             catch (Exception ex)

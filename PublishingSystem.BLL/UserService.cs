@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using PublishingSystem.Models;
-using PublishingSystem.DTO;
 using PublishingSystem.DAL;
-using BCrypt.Net;
 
 namespace PublishingSystem.BLL
 {
@@ -17,33 +15,46 @@ namespace PublishingSystem.BLL
             _repository = new UserRepository();
         }
 
-        public void CreateUser(UserCreateDto dto, string adminEmail)
+        public User Authenticate(string email, string password)
         {
-            if (string.IsNullOrWhiteSpace(dto.FirstName) ||
-                string.IsNullOrWhiteSpace(dto.LastName) ||
-                string.IsNullOrWhiteSpace(dto.Email) ||
-                string.IsNullOrWhiteSpace(dto.Password) ||
-                string.IsNullOrWhiteSpace(dto.ConfirmPassword) ||
-                string.IsNullOrWhiteSpace(dto.Role))
+            var user = _repository.GetUserByEmail(email);
+            if (user == null) return null;
+
+            return BCrypt.Net.BCrypt.Verify(password, user.Password) ? user : null;
+        }
+
+        public int CreateUser(User user)
+        {
+            if (string.IsNullOrWhiteSpace(user.FirstName) ||
+                string.IsNullOrWhiteSpace(user.LastName) ||
+                string.IsNullOrWhiteSpace(user.Email) ||
+                string.IsNullOrWhiteSpace(user.Password) ||
+                string.IsNullOrWhiteSpace(user.Role) ||
+                string.IsNullOrWhiteSpace(user.Status))
             {
                 throw new Exception("All fields are required.");
             }
 
-            if (dto.Password != dto.ConfirmPassword)
-                throw new Exception("Passwords do not match.");
-
-            if (!IsPasswordStrong(dto.Password))
+            if (!IsPasswordStrong(user.Password))
                 throw new Exception("Password does not meet complexity requirements.");
 
-            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
-            int userId = _repository.CreateUser(dto, hashedPassword);
-
-            AuditService.LogAdminAction(adminEmail, $"Created user with role {dto.Role}", userId);
+            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            return _repository.CreateUser(user.Role, user);
         }
 
-        public List<User> GetUsers(string roleFilter = null, bool? isActive = null, string emailFilter = null)
+        public void UpdateUser(User user)
         {
-            return _repository.GetUsers(roleFilter, isActive, emailFilter);
+            _repository.UpdateUser(user);
+        }
+
+        public void DeleteUser(User user)
+        {
+            _repository.DeleteUser(user);
+        }
+
+        public List<User> GetUsers(string role = null, string status = null, string email = null)
+        {
+            return _repository.GetUsers(role, status, email);
         }
 
         private bool IsPasswordStrong(string password)
@@ -52,7 +63,7 @@ namespace PublishingSystem.BLL
                    Regex.IsMatch(password, @"[a-z]") &&
                    Regex.IsMatch(password, @"[A-Z]") &&
                    Regex.IsMatch(password, @"[0-9]") &&
-                   Regex.IsMatch(password, @"[\W_]");
+                   Regex.IsMatch(password, @"[\\W_]");
         }
     }
 }
