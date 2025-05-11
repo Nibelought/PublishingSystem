@@ -3,6 +3,7 @@ using System.Data;
 using System.Linq;
 using Dapper;
 using PublishingSystem.Models;
+// Npgsql using не требуется для этого конкретного изменения, если только для DbContext
 
 namespace PublishingSystem.DAL
 {
@@ -21,7 +22,7 @@ namespace PublishingSystem.DAL
                                email, password AS Password, status,
                                '{role}' AS Role
                         FROM {role}
-
+                        WHERE email = @Email
                         LIMIT 1";
 
                     var user = connection.QueryFirstOrDefault<User>(sql, new { Email = email });
@@ -31,7 +32,7 @@ namespace PublishingSystem.DAL
                 return null;
             }
         }
-        
+
 
         public int CreateUser(string role, User user)
         {
@@ -42,13 +43,17 @@ namespace PublishingSystem.DAL
                     VALUES (@FirstName, @LastName, @Email, @Password, @Status)
                     RETURNING id";
 
+                // Для CreateUser, если маппинг работает, это должно быть ОК.
+                // Если и здесь проблема, то Status = user.Status.ToString() также потребуется.
                 return connection.QuerySingle<int>(sql, new
                 {
                     user.FirstName,
                     user.LastName,
                     user.Email,
                     user.Password,
-                    user.Status
+                    Status = user.Status // Оставляем пока так, предполагая, что Npgsql.GlobalTypeMapper.MapEnum срабатывает здесь
+                                         // или Dapper обрабатывает это иначе при INSERT RETURNING.
+                                         // Если CreateUser тоже ломается с той же ошибкой, примените .ToString() и здесь.
                 });
             }
         }
@@ -61,10 +66,16 @@ namespace PublishingSystem.DAL
                     UPDATE {user.Role}
                     SET first_name = @FirstName,
                         last_name = @LastName,
-                        status = @Status
+                        status = @Status::status_type -- Явное приведение типа в SQL для строки
                     WHERE id = @Id";
 
-                connection.Execute(sql, user);
+                connection.Execute(sql, new
+                {
+                    user.FirstName,
+                    user.LastName,
+                    Status = user.Status.ToString(), // Явно преобразуем enum в строку
+                    user.Id
+                });
             }
         }
 
@@ -77,7 +88,7 @@ namespace PublishingSystem.DAL
             }
         }
 
-        public List<User> GetUsers(string role = null, string status = null, string email = null)
+        public List<User> GetUsers(string role = null, StatusType? status = null, string email = null)
         {
             using (var connection = DbContext.GetConnection())
             {
@@ -87,27 +98,31 @@ namespace PublishingSystem.DAL
                 foreach (var r in rolesToQuery)
                 {
                     var whereClauses = new List<string>();
-                    if (!string.IsNullOrEmpty(status))
+                    var parameters = new DynamicParameters(); // DynamicParameters для гибкости
+
+                    if (status.HasValue)
+                    {
                         whereClauses.Add("status = @Status");
+                        // Здесь также может потребоваться .ToString() если глобальный маппинг не срабатывает
+                        // Но Dapper.DynamicParameters может лучше обрабатывать enum с MapEnum.
+                        parameters.Add("Status", status.Value);
+                    }
                     if (!string.IsNullOrEmpty(email))
+                    {
                         whereClauses.Add("email ILIKE @Email");
+                        parameters.Add("Email", $"%{email}%");
+                    }
 
                     var whereSql = whereClauses.Count > 0
                         ? "WHERE " + string.Join(" AND ", whereClauses)
                         : "";
 
                     var sql = $@"
-                SELECT id, first_name AS FirstName, last_name AS LastName,
-                       email, password AS Password, status,
-                       '{r}' AS Role
-                FROM {r}
-                {whereSql}";
-
-                    var parameters = new DynamicParameters();
-                    if (!string.IsNullOrEmpty(status))
-                        parameters.Add("Status", status);
-                    if (!string.IsNullOrEmpty(email))
-                        parameters.Add("Email", $"%{email}%");
+                        SELECT id, first_name AS FirstName, last_name AS LastName,
+                               email, password AS Password, status,
+                               '{r}' AS Role
+                        FROM {r}
+                        {whereSql}";
 
                     var users = connection.Query<User>(sql, parameters).ToList();
                     allUsers.AddRange(users);
