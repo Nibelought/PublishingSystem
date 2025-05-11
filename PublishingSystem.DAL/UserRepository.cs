@@ -21,7 +21,7 @@ namespace PublishingSystem.DAL
                                email, password AS Password, status,
                                '{role}' AS Role
                         FROM {role}
-                        WHERE email = @Email
+
                         LIMIT 1";
 
                     var user = connection.QueryFirstOrDefault<User>(sql, new { Email = email });
@@ -31,6 +31,7 @@ namespace PublishingSystem.DAL
                 return null;
             }
         }
+        
 
         public int CreateUser(string role, User user)
         {
@@ -85,15 +86,30 @@ namespace PublishingSystem.DAL
 
                 foreach (var r in rolesToQuery)
                 {
-                    var sql = $@"
-                        SELECT id, first_name AS FirstName, last_name AS LastName,
-                               email, password AS Password, status,
-                               '{r}' AS Role
-                        FROM {r}
-                        WHERE (@Status IS NULL OR status = @Status)
-                          AND (@Email IS NULL OR email ILIKE '%' || @Email || '%')";
+                    var whereClauses = new List<string>();
+                    if (!string.IsNullOrEmpty(status))
+                        whereClauses.Add("status = @Status");
+                    if (!string.IsNullOrEmpty(email))
+                        whereClauses.Add("email ILIKE @Email");
 
-                    var users = connection.Query<User>(sql, new { Status = status, Email = email }).ToList();
+                    var whereSql = whereClauses.Count > 0
+                        ? "WHERE " + string.Join(" AND ", whereClauses)
+                        : "";
+
+                    var sql = $@"
+                SELECT id, first_name AS FirstName, last_name AS LastName,
+                       email, password AS Password, status,
+                       '{r}' AS Role
+                FROM {r}
+                {whereSql}";
+
+                    var parameters = new DynamicParameters();
+                    if (!string.IsNullOrEmpty(status))
+                        parameters.Add("Status", status);
+                    if (!string.IsNullOrEmpty(email))
+                        parameters.Add("Email", $"%{email}%");
+
+                    var users = connection.Query<User>(sql, parameters).ToList();
                     allUsers.AddRange(users);
                 }
 
