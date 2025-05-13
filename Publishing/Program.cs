@@ -1,18 +1,31 @@
-using Npgsql; // Required for NpgsqlConnection
+using Npgsql;
 using Publishing;
-using PublishingSystem.Models; // Required for StatusType
+using PublishingSystem.Models; // Добавлено для Enum
 using System;
 using System.Windows.Forms;
+using Npgsql.TypeMapping; // Для INpgsqlTypeMapper
 
 namespace PublishingSystem.UI
 {
+    // Класс-транслятор для AgeRestriction
+    class AgeRestrictionTranslator : INpgsqlNameTranslator
+    {
+        public string TranslateTypeName(string clrName) => "age_restriction"; // Имя типа в БД
+        public string TranslateMemberName(string clrName)
+        {
+            // Преобразуем _0plus -> '0+', _6plus -> '6+' и т.д.
+            return clrName.TrimStart('_').Replace("plus", "+");
+        }
+    }
+
     internal static class Program
     {
         [STAThread]
         static void Main()
         {
-            // Configure Npgsql to map the PostgreSQL enum 'status_type' to the C# enum 'StatusType'
-            NpgsqlConnection.GlobalTypeMapper.MapEnum<StatusType>("status_type");
+            // Маппинг Enum'ов PostgreSQL на C# Enums
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<BookState>("book_state");
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<AgeRestriction>("age_restriction", new AgeRestrictionTranslator());
 
             ApplicationConfiguration.Initialize();
             Application.Run(new LoginForm());

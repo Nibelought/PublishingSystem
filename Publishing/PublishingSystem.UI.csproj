@@ -11,8 +11,28 @@
   <ItemGroup>
     <ProjectReference Include="..\PublishingSystem.BLL\PublishingSystem.BLL.csproj" />
     <ProjectReference Include="..\PublishingSystem.DAL\PublishingSystem.DAL.csproj" />
-    <ProjectReference Include="..\PublishingSystem.DTO\PublishingSystem.DTO.csproj" />
     <ProjectReference Include="..\PublishingSystem.Models\PublishingSystem.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ChangePasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ChangeProfileForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="AuthorDashboardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="EditorDashboardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="DesignerDashboardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="CriticDashboardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>

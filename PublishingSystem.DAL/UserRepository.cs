@@ -3,7 +3,6 @@ using System.Data;
 using System.Linq;
 using Dapper;
 using PublishingSystem.Models;
-// Npgsql using не требуется для этого конкретного изменения, если только для DbContext
 
 namespace PublishingSystem.DAL
 {
@@ -17,9 +16,11 @@ namespace PublishingSystem.DAL
             {
                 foreach (var role in Roles)
                 {
+                    // При выборке Dapper сопоставит столбец 'status' (теперь BOOLEAN)
+                    // со свойством 'IsActive' (bool) модели User.
                     var sql = $@"
                         SELECT id, first_name AS FirstName, last_name AS LastName,
-                               email, password AS Password, status,
+                               email, password AS Password, status AS IsActive,
                                '{role}' AS Role
                         FROM {role}
                         WHERE email = @Email
@@ -33,27 +34,23 @@ namespace PublishingSystem.DAL
             }
         }
 
-
         public int CreateUser(string role, User user)
         {
             using (var connection = DbContext.GetConnection())
             {
+                // Dapper корректно обработает user.IsActive (bool) для столбца status (BOOLEAN)
                 var sql = $@"
                     INSERT INTO {role} (first_name, last_name, email, password, status)
-                    VALUES (@FirstName, @LastName, @Email, @Password, @Status)
+                    VALUES (@FirstName, @LastName, @Email, @Password, @IsActive)
                     RETURNING id";
 
-                // Для CreateUser, если маппинг работает, это должно быть ОК.
-                // Если и здесь проблема, то Status = user.Status.ToString() также потребуется.
                 return connection.QuerySingle<int>(sql, new
                 {
                     user.FirstName,
                     user.LastName,
                     user.Email,
                     user.Password,
-                    Status = user.Status // Оставляем пока так, предполагая, что Npgsql.GlobalTypeMapper.MapEnum срабатывает здесь
-                                         // или Dapper обрабатывает это иначе при INSERT RETURNING.
-                                         // Если CreateUser тоже ломается с той же ошибкой, примените .ToString() и здесь.
+                    user.IsActive // Передаем bool значение
                 });
             }
         }
@@ -62,18 +59,19 @@ namespace PublishingSystem.DAL
         {
             using (var connection = DbContext.GetConnection())
             {
+                // Dapper корректно обработает user.IsActive (bool) для столбца status (BOOLEAN)
                 var sql = $@"
                     UPDATE {user.Role}
                     SET first_name = @FirstName,
                         last_name = @LastName,
-                        status = @Status::status_type -- Явное приведение типа в SQL для строки
+                        status = @IsActive
                     WHERE id = @Id";
 
                 connection.Execute(sql, new
                 {
                     user.FirstName,
                     user.LastName,
-                    Status = user.Status.ToString(), // Явно преобразуем enum в строку
+                    user.IsActive, // Передаем bool значение
                     user.Id
                 });
             }
@@ -88,7 +86,7 @@ namespace PublishingSystem.DAL
             }
         }
 
-        public List<User> GetUsers(string role = null, StatusType? status = null, string email = null)
+        public List<User> GetUsers(string role = null, bool? isActive = null, string email = null)
         {
             using (var connection = DbContext.GetConnection())
             {
@@ -98,14 +96,12 @@ namespace PublishingSystem.DAL
                 foreach (var r in rolesToQuery)
                 {
                     var whereClauses = new List<string>();
-                    var parameters = new DynamicParameters(); // DynamicParameters для гибкости
+                    var parameters = new DynamicParameters();
 
-                    if (status.HasValue)
+                    if (isActive.HasValue)
                     {
-                        whereClauses.Add("status = @Status");
-                        // Здесь также может потребоваться .ToString() если глобальный маппинг не срабатывает
-                        // Но Dapper.DynamicParameters может лучше обрабатывать enum с MapEnum.
-                        parameters.Add("Status", status.Value);
+                        whereClauses.Add("status = @IsActive"); // 'status' это имя столбца в БД
+                        parameters.Add("IsActive", isActive.Value);
                     }
                     if (!string.IsNullOrEmpty(email))
                     {
@@ -119,7 +115,7 @@ namespace PublishingSystem.DAL
 
                     var sql = $@"
                         SELECT id, first_name AS FirstName, last_name AS LastName,
-                               email, password AS Password, status,
+                               email, password AS Password, status AS IsActive,
                                '{r}' AS Role
                         FROM {r}
                         {whereSql}";
@@ -129,6 +125,44 @@ namespace PublishingSystem.DAL
                 }
 
                 return allUsers.OrderBy(u => u.Id).ToList();
+            }
+        }
+        public User GetUserById(int userId, string role)
+        {
+            if (!Roles.Contains(role)) return null; // Проверка роли
+
+            using (var connection = DbContext.GetConnection())
+            {
+                var sql = $@"
+                    SELECT id, first_name AS FirstName, last_name AS LastName,
+                           email, password AS Password, status AS IsActive,
+                           '{role}' AS Role
+                    FROM {role}
+                    WHERE id = @UserId";
+                return connection.QueryFirstOrDefault<User>(sql, new { UserId = userId });
+            }
+        }
+
+
+        public void UpdatePassword(int userId, string role, string newHashedPassword)
+        {
+            if (!Roles.Contains(role)) return;
+
+            using (var connection = DbContext.GetConnection())
+            {
+                var sql = $"UPDATE {role} SET password = @Password WHERE id = @UserId";
+                connection.Execute(sql, new { Password = newHashedPassword, UserId = userId });
+            }
+        }
+
+        public void UpdateProfile(int userId, string role, string firstName, string lastName)
+        {
+            if (!Roles.Contains(role)) return;
+
+            using (var connection = DbContext.GetConnection())
+            {
+                var sql = $"UPDATE {role} SET first_name = @FirstName, last_name = @LastName WHERE id = @UserId";
+                connection.Execute(sql, new { FirstName = firstName, LastName = lastName, UserId = userId });
             }
         }
     }
