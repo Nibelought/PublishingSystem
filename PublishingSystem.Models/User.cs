@@ -8,6 +8,6 @@
         public string Password { get; set; } // hashed
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public StatusType Status { get; set; } // active/inactive
+        public bool IsActive { get; set; } // Заменено Status на IsActive (boolean)
     }
 }

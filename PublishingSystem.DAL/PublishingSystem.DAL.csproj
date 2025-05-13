@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PublishingSystem.DTO\PublishingSystem.DTO.csproj" />
     <ProjectReference Include="..\PublishingSystem.Models\PublishingSystem.Models.csproj" />
   </ItemGroup>
 
