@@ -28,8 +28,7 @@ namespace PublishingSystem.DAL
 
                     var user = connection.QueryFirstOrDefault<User>(sql, new { Email = email });
                     if (user != null)
-                        return user;
-                }
+                        return user; }
                 return null;
             }
         }
@@ -71,7 +70,7 @@ namespace PublishingSystem.DAL
                 {
                     user.FirstName,
                     user.LastName,
-                    user.IsActive, // Передаем bool значение
+                    user.IsActive, // bool
                     user.Id
                 });
             }
@@ -100,7 +99,7 @@ namespace PublishingSystem.DAL
 
                     if (isActive.HasValue)
                     {
-                        whereClauses.Add("status = @IsActive"); // 'status' это имя столбца в БД
+                        whereClauses.Add("status = @IsActive"); // 'status' column name in DB
                         parameters.Add("IsActive", isActive.Value);
                     }
                     if (!string.IsNullOrEmpty(email))
@@ -127,6 +126,7 @@ namespace PublishingSystem.DAL
                 return allUsers.OrderBy(u => u.Id).ToList();
             }
         }
+        
         public User GetUserById(int userId, string role)
         {
             if (!Roles.Contains(role)) return null; // Проверка роли

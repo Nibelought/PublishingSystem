@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using PublishingSystem.Models;
 using PublishingSystem.DAL;
-using System.Text; // For Random password generation
+using System.Text;
+using System.Windows.Forms;
 
 namespace PublishingSystem.BLL
 {
@@ -24,18 +25,16 @@ namespace PublishingSystem.BLL
             return BCrypt.Net.BCrypt.Verify(password, user.Password) ? user : null;
         }
 
-        public int CreateUser(User user) // Пароль приходит уже хешированным
+        public int CreateUser(User user) // already hashed
         {
             if (string.IsNullOrWhiteSpace(user.FirstName) ||
                 string.IsNullOrWhiteSpace(user.LastName) ||
                 string.IsNullOrWhiteSpace(user.Email) ||
-                string.IsNullOrWhiteSpace(user.Password) || // Проверяем, что хешированный пароль не пуст
+                string.IsNullOrWhiteSpace(user.Password) || // Check hash pass not empty
                 string.IsNullOrWhiteSpace(user.Role))
             {
                 throw new Exception("All user fields are required.");
             }
-            // Пароль УЖЕ хеширован в AdminDashboardForm
-            // НЕ НУЖНО: user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
             return _repository.CreateUser(user.Role, user);
         }
 
@@ -62,6 +61,12 @@ namespace PublishingSystem.BLL
                 throw new ArgumentException("New password does not meet complexity requirements.");
 
             var user = _repository.GetUserById(userId, role);
+            // MessageBox.Show($"GetUserById: User ID: {userId}, Role: {role}\nFound User: {(user != null ? user.Email : "NOT FOUND")}\nPassword Hash from DB: {(user != null ? user.Password : "N/A")}");
+            // // ВРЕМЕННАЯ ПРОВЕРКА 2: Какие пароли сравниваются?
+            // string currentPasswordPlainText = currentPassword; // Это пароль, введенный пользователем
+            // string hashedPasswordFromDb = user.Password;
+            // bool verificationResult = BCrypt.Net.BCrypt.Verify(currentPasswordPlainText, hashedPasswordFromDb);
+            // MessageBox.Show($"Current Plain: {currentPasswordPlainText}\nHash from DB: {hashedPasswordFromDb}\nBCrypt.Verify Result: {verificationResult}");
             if (user == null)
                 throw new KeyNotFoundException("User not found.");
 
@@ -91,10 +96,10 @@ namespace PublishingSystem.BLL
             var password = new StringBuilder(length);
             bool hasLower = false, hasUpper = false, hasDigit = false, hasSpecial = false;
 
-            int attempts = 0; // Ограничение попыток
+            int attempts = 0; // try limit
             while (password.Length < length || !(hasLower && hasUpper && hasDigit && hasSpecial))
             {
-                if (password.Length == length || attempts > length * 5) // Если достигли длины, но не всех типов ИЛИ слишком много попыток
+                if (password.Length == length || attempts > length * 5) // If enough lenght, but not all types OR too many tries
                 {
                     password.Clear();
                     hasLower = hasUpper = hasDigit = hasSpecial = false;

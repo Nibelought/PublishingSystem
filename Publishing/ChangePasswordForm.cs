@@ -7,10 +7,10 @@ namespace PublishingSystem.UI
     public partial class ChangePasswordForm : Form
     {
         private readonly int _userId;
-        private readonly string _userRole; // Роль нужна для UserService
+        private readonly string _userRole; // Role for UserService
         private readonly UserService _userService;
 
-        // Конструктор принимает ID и Роль пользователя
+        // Constructor take ID and Role user
         public ChangePasswordForm(int userId, string userRole)
         {
             InitializeComponent();
@@ -19,6 +19,24 @@ namespace PublishingSystem.UI
             _userService = new UserService();
             this.AcceptButton = btnSave;
             this.CancelButton = btnCancel;
+            if (this.btnSave != null) // Проверка, что кнопка создана дизайнером
+            {
+                // Удаляем предыдущие обработчики на всякий случай, чтобы избежать дублирования
+                // если этот код вызывается несколько раз или есть привязка в дизайнере.
+                // Это необязательно, если вы уверены в чистоте привязок.
+                // this.btnSave.Click -= new System.EventHandler(this.btnSave_Click); // Раскомментировать если подозреваете двойной вызов
+
+                this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            }
+            else
+            {
+                MessageBox.Show("ERROR: btnSave is null in ChangePasswordForm constructor!");
+            }
+
+            if (this.btnCancel != null)
+            {
+                this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -69,11 +87,4 @@ namespace PublishingSystem.UI
             this.Close();
         }
     }
-
-    // --- Design Notes for ChangePasswordForm.Designer.cs ---
-    // - Add 3 Labels: "Current Password:", "New Password:", "Confirm Password:"
-    // - Add 3 TextBoxes: txtCurrentPassword, txtNewPassword, txtConfirmPassword (set PasswordChar = '*')
-    // - Add 2 Buttons: btnSave, btnCancel
-    // - Arrange controls vertically.
-    // ------------------------------------------------------
 }

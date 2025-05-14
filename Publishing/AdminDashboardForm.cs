@@ -4,8 +4,9 @@ using System.Linq;
 using System.Windows.Forms;
 using PublishingSystem.BLL;
 using PublishingSystem.Models;
-using Publishing; // Для LoginForm
-using Microsoft.VisualBasic; // Для Interaction.InputBox
+using Publishing;
+using Microsoft.VisualBasic; // For Interaction.InputBox
+using System.Text.RegularExpressions;
 
 namespace PublishingSystem.UI
 {
@@ -44,9 +45,9 @@ namespace PublishingSystem.UI
             _bookService = new BookService();
             _reviewService = new ReviewService();
 
-            InitializeUserMenu(); // Инициализация меню пользователя
+            InitializeUserMenu();
 
-            // Настройка вкладки "Add User" и "View Users"
+            // Tab settings "Add User" and "View Users"
             comboRoleFilter.Items.AddRange(new[] { "author", "editor", "critic", "designer" });
             comboAddRole.Items.AddRange(new[] { "author", "editor", "critic", "designer" });
 
@@ -58,20 +59,19 @@ namespace PublishingSystem.UI
             var statusFilterOptions = new List<object> { "All" };
             statusFilterOptions.AddRange(statusOptions);
 
-            comboAddStatus.DataSource = new List<StatusDisplay>(statusOptions); // Клон списка
+            comboAddStatus.DataSource = new List<StatusDisplay>(statusOptions); // List clone
             comboAddStatus.DisplayMember = "DisplayName";
             comboAddStatus.ValueMember = "Value";
 
-            comboStatusFilter.DataSource = statusFilterOptions; // Будет использовать ToString() для "All" и StatusDisplay
+            comboStatusFilter.DataSource = statusFilterOptions; // Be used ToString() for "All" and StatusDisplay
 
             comboRoleFilter.SelectedIndex = -1;
             comboStatusFilter.SelectedItem = "All";
             comboAddRole.SelectedIndex = 0;
             comboAddStatus.SelectedValue = true;
 
-            LoadUsers(); // Загрузка пользователей
-
-            // Инициализация новых вкладок
+            LoadUsers();
+            
             SetupBooksTab();
             SetupReviewsTab();
 
@@ -92,7 +92,7 @@ namespace PublishingSystem.UI
 
         private void InitializeUserMenu()
         {
-            this.menuStripUser = new MenuStrip(); // Создаем MenuStrip программно
+            this.menuStripUser = new MenuStrip(); // Create MenuStrip with software
             this.menuItemUserActions = new ToolStripMenuItem();
             this.menuItemChangePassword = new ToolStripMenuItem();
             this.menuItemChangeProfile = new ToolStripMenuItem();
@@ -189,6 +189,21 @@ namespace PublishingSystem.UI
                 MessageBox.Show($"Error generating password: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        
+        private bool IsValidEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         private void btnAddUser_Click(object sender, EventArgs e)
         {
@@ -201,6 +216,13 @@ namespace PublishingSystem.UI
             }
             var confirm = MessageBox.Show("Подтвердите правильность введённых данных", "Подтверждение", MessageBoxButtons.YesNo);
             if (confirm != DialogResult.Yes) return;
+            string email = txtEmail.Text.Trim();
+            if (!IsValidEmail(email))
+            {
+                MessageBox.Show("Please enter a valid email address.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtEmail.Focus();
+                return;
+            }
             try
             {
                 string plainPassword = txtPassword.Text;
@@ -216,13 +238,26 @@ namespace PublishingSystem.UI
                 };
                 int newUserId = _userService.CreateUser(userToCreate);
                 AuditService.LogAdminAction(_admin.Email, $"Created user with role {userToCreate.Role}", newUserId);
-                MessageBox.Show($"Пользователь успешно добавлен.\nEmail: {userToCreate.Email}\nPassword: {plainPassword}", "User Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                string successMessage = $"User successfully added.\nEmail: {userToCreate.Email}\nPassword: {plainPassword}\n\nPassword copied to clipbo.";
+                try
+                {
+                    Clipboard.SetText(plainPassword); // Copy pass
+                }
+                catch (Exception clipEx)
+                {
+                    successMessage = $"User successfully added.\nEmail: {userToCreate.Email}\nPassword: {plainPassword}\n\n(Не удалось скопировать пароль в буфер: {clipEx.Message})";
+                    Console.WriteLine($"Clipboard error: {clipEx.Message}"); // Log buffer error
+                }
+
+                MessageBox.Show(successMessage, "User Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 ClearUserForm();
                 LoadUsers();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void btnEditUser_Click(object sender, EventArgs e)
@@ -367,13 +402,7 @@ namespace PublishingSystem.UI
             txtEmail.Clear();
             txtPassword.Clear();
             if (comboAddRole.Items.Count > 0) comboAddRole.SelectedIndex = 0;
-            if (comboAddStatus.Items.Count > 0) comboAddStatus.SelectedValue = true; // Предполагая, что true это "Active"
-        }
-
-        // Обработчик для tabPage1_Click (если он все еще привязан в дизайнере и не нужен)
-        private void tabPage1_Click(object sender, EventArgs e)
-        {
-            // Оставьте пустым или удалите привязку в дизайнере
+            if (comboAddStatus.Items.Count > 0) comboAddStatus.SelectedValue = true;
         }
     }
 }

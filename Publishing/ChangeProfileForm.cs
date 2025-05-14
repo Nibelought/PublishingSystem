@@ -1,5 +1,5 @@
 ﻿using PublishingSystem.BLL;
-using PublishingSystem.Models; // Для User
+using PublishingSystem.Models; // For User
 using System;
 using System.Windows.Forms;
 
@@ -10,7 +10,7 @@ namespace PublishingSystem.UI
         private readonly User _currentUser;
         private readonly UserService _userService;
 
-        // Свойства для возврата новых значений
+        // Property for new value
         public string NewFirstName { get; private set; }
         public string NewLastName { get; private set; }
 
@@ -22,11 +22,24 @@ namespace PublishingSystem.UI
             _userService = new UserService();
             this.AcceptButton = btnSave;
             this.CancelButton = btnCancel;
+            if (this.btnSave != null) // Проверка, что кнопка создана дизайнером
+            {
+                this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            }
+            else
+            {
+                MessageBox.Show("ERROR: btnSave is null in ChangePasswordForm constructor!");
+            }
 
-            // Заполнить текущими значениями
+            if (this.btnCancel != null)
+            {
+                this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            }
+
+            // Fill with current value
             txtFirstName.Text = _currentUser.FirstName;
             txtLastName.Text = _currentUser.LastName;
-            NewFirstName = _currentUser.FirstName; // Инициализация на случай отмены
+            NewFirstName = _currentUser.FirstName; // Initialize in case of cancel
             NewLastName = _currentUser.LastName;
         }
 
@@ -34,6 +47,8 @@ namespace PublishingSystem.UI
         {
             string firstName = txtFirstName.Text.Trim();
             string lastName = txtLastName.Text.Trim();
+            MessageBox.Show($"Click go!");
+
 
             if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
             {
@@ -45,7 +60,7 @@ namespace PublishingSystem.UI
             {
                  _userService.UpdateProfile(_currentUser.Id, _currentUser.Role, firstName, lastName);
 
-                 // Сохраняем новые значения для передачи назад
+                 // Save new values for passing back
                  NewFirstName = firstName;
                  NewLastName = lastName;
 
@@ -69,11 +84,4 @@ namespace PublishingSystem.UI
              this.Close();
          }
     }
-
-    // --- Design Notes for ChangeProfileForm.Designer.cs ---
-    // - Add 2 Labels: "First Name:", "Last Name:"
-    // - Add 2 TextBoxes: txtFirstName, txtLastName
-    // - Add 2 Buttons: btnSave, btnCancel
-    // - Arrange controls.
-    // ------------------------------------------------------
 }

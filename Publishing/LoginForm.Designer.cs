@@ -27,41 +27,41 @@ namespace Publishing
         #region Windows Form Designer generated code
 
         /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            txtEmail = new TextBox();
-            txtPassword = new TextBox();
-            btnLogin = new Button();
-            lblError = new Label();
+            txtEmail = new System.Windows.Forms.TextBox();
+            txtPassword = new System.Windows.Forms.TextBox();
+            btnLogin = new System.Windows.Forms.Button();
+            lblError = new System.Windows.Forms.Label();
             SuspendLayout();
             // 
             // txtEmail
             // 
-            txtEmail.Location = new Point(110, 60);
+            txtEmail.Location = new System.Drawing.Point(110, 60);
             txtEmail.MaxLength = 255;
             txtEmail.Name = "txtEmail";
-            txtEmail.Size = new Size(140, 23);
+            txtEmail.Size = new System.Drawing.Size(140, 23);
             txtEmail.TabIndex = 0;
             // 
             // txtPassword
             // 
-            txtPassword.Anchor = AnchorStyles.None;
-            txtPassword.Location = new Point(110, 100);
+            txtPassword.Anchor = System.Windows.Forms.AnchorStyles.None;
+            txtPassword.Location = new System.Drawing.Point(110, 100);
             txtPassword.MaxLength = 255;
             txtPassword.Name = "txtPassword";
             txtPassword.PasswordChar = '*';
-            txtPassword.Size = new Size(140, 23);
+            txtPassword.Size = new System.Drawing.Size(140, 23);
             txtPassword.TabIndex = 1;
             // 
             // btnLogin
             // 
-            btnLogin.Anchor = AnchorStyles.None;
-            btnLogin.Location = new Point(143, 161);
+            btnLogin.Anchor = System.Windows.Forms.AnchorStyles.None;
+            btnLogin.Location = new System.Drawing.Point(143, 161);
             btnLogin.Name = "btnLogin";
-            btnLogin.Size = new Size(75, 23);
+            btnLogin.Size = new System.Drawing.Size(75, 23);
             btnLogin.TabIndex = 2;
             btnLogin.Text = "Login";
             btnLogin.UseVisualStyleBackColor = true;
@@ -69,22 +69,22 @@ namespace Publishing
             // lblError
             // 
             lblError.AutoSize = true;
-            lblError.Location = new Point(142, 25);
+            lblError.Location = new System.Drawing.Point(142, 25);
             lblError.Name = "lblError";
-            lblError.Size = new Size(79, 15);
+            lblError.Size = new System.Drawing.Size(79, 15);
             lblError.TabIndex = 3;
             lblError.Text = "Authorization";
             // 
             // LoginForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(344, 221);
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(344, 221);
             Controls.Add(lblError);
             Controls.Add(btnLogin);
             Controls.Add(txtPassword);
             Controls.Add(txtEmail);
-            Name = "LoginForm";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "Login";
             ResumeLayout(false);
             PerformLayout();

@@ -2,8 +2,7 @@ using System;
 using System.Windows.Forms;
 using PublishingSystem.BLL;
 using PublishingSystem.Models;
-using PublishingSystem.UI; // Нужно для доступа к формам дашбордов
-
+using PublishingSystem.UI;
 namespace Publishing
 {
     public partial class LoginForm : Form
@@ -33,15 +32,15 @@ namespace Publishing
             try
             {
                 var userService = new UserService();
-                User? user = userService.Authenticate(email, password); // Authenticate теперь проверяет IsActive
+                User? user = userService.Authenticate(email, password); // Authenticate now checks IsActive
                 if (user == null)
                 {
-                    // Либо неверные данные, либо пользователь неактивен
+                    // Or incorrect data, or user inactive
                     ShowError("Invalid login/password or inactive account.");
                     return;
                 }
 
-                // --- Логика выбора дашборда ---
+                // --- Logic choice dashboard ---
                 Form dashboard;
                 if (AdminConfig.IsAdmin(user.Email))
                 {
@@ -49,7 +48,7 @@ namespace Publishing
                 }
                 else
                 {
-                    switch (user.Role.ToLower()) // Приводим к нижнему регистру для надежности
+                    switch (user.Role.ToLower()) // Convert to lower case for reliability
                     {
                         case "author":
                             dashboard = new AuthorDashboardForm(user);
@@ -64,18 +63,18 @@ namespace Publishing
                              dashboard = new CriticDashboardForm(user);
                              break;
                         default:
-                             // Неизвестная роль - можно показать сообщение или пустую форму
+                             // Unknown role - can show message or blank form
                              MessageBox.Show($"Unknown user role: {user.Role}. Cannot open dashboard.", "Login Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                             return; // Не продолжаем
+                             return; // Not continue
                     }
                 }
-                // --- Конец логики выбора дашборда ---
+                // --- End of logic choice dashboard ---
 
 
                 this.Hide();
-                // Подписываемся на закрытие дашборда, чтобы закрыть и форму логина
+                // subscribe on closing dashboard, for close and login form
                  dashboard.Closed += (s, args) => this.Close();
-                 dashboard.Show(); // Используем Show() вместо ShowDialog()
+                 dashboard.Show(); // Use Show() instead of ShowDialog()
 
             }
             catch (Exception ex)
@@ -84,8 +83,17 @@ namespace Publishing
             }
         }
 
-        // ... (ShowError, ResetMessage без изменений) ...
-        private void ShowError(string message) { /* ... */ }
-        private void ResetMessage() { /* ... */ }
+        // ... (ShowError, ResetMessage w/o change) ...
+        private void ShowError(string message)
+        {
+            lblError.Text = message;
+            lblError.ForeColor = System.Drawing.Color.Red;
+        }
+
+        private void ResetMessage()
+        {
+            lblError.Text = "Authorization"; // Default text
+            lblError.ForeColor = System.Drawing.SystemColors.ControlText; // Default color
+        }
     }
 }

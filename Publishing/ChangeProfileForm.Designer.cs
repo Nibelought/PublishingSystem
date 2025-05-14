@@ -98,6 +98,7 @@ partial class ChangeProfileForm
         Controls.Add(label1);
         Controls.Add(btnSave);
         Controls.Add(btnCancel);
+        StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
         Text = "ChangeProfileForm";
         ResumeLayout(false);
         PerformLayout();

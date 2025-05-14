@@ -33,11 +33,11 @@ partial class EditorDashboardForm
     {
         menuStrip1 = new System.Windows.Forms.MenuStrip();
         splitContainer1 = new System.Windows.Forms.SplitContainer();
-        label1 = new System.Windows.Forms.Label();
-        label2 = new System.Windows.Forms.Label();
-        dataGridViewBooksToEdit = new System.Windows.Forms.DataGridView();
-        dataGridViewMyBooks = new System.Windows.Forms.DataGridView();
         btnAssignToMe = new System.Windows.Forms.Button();
+        label1 = new System.Windows.Forms.Label();
+        dataGridViewBooksToEdit = new System.Windows.Forms.DataGridView();
+        label2 = new System.Windows.Forms.Label();
+        dataGridViewMyBooks = new System.Windows.Forms.DataGridView();
         ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
         splitContainer1.Panel1.SuspendLayout();
         splitContainer1.Panel2.SuspendLayout();
@@ -74,38 +74,6 @@ partial class EditorDashboardForm
         splitContainer1.SplitterDistance = 346;
         splitContainer1.TabIndex = 1;
         // 
-        // label1
-        // 
-        label1.Location = new System.Drawing.Point(91, 0);
-        label1.Name = "label1";
-        label1.Size = new System.Drawing.Size(156, 17);
-        label1.TabIndex = 0;
-        label1.Text = "Books Available for Editing";
-        // 
-        // label2
-        // 
-        label2.Location = new System.Drawing.Point(167, 0);
-        label2.Name = "label2";
-        label2.Size = new System.Drawing.Size(112, 19);
-        label2.TabIndex = 0;
-        label2.Text = "My Assigned Books";
-        // 
-        // dataGridViewBooksToEdit
-        // 
-        dataGridViewBooksToEdit.Dock = System.Windows.Forms.DockStyle.Fill;
-        dataGridViewBooksToEdit.Location = new System.Drawing.Point(0, 0);
-        dataGridViewBooksToEdit.Name = "dataGridViewBooksToEdit";
-        dataGridViewBooksToEdit.Size = new System.Drawing.Size(346, 426);
-        dataGridViewBooksToEdit.TabIndex = 1;
-        // 
-        // dataGridViewMyBooks
-        // 
-        dataGridViewMyBooks.Dock = System.Windows.Forms.DockStyle.Fill;
-        dataGridViewMyBooks.Location = new System.Drawing.Point(0, 0);
-        dataGridViewMyBooks.Name = "dataGridViewMyBooks";
-        dataGridViewMyBooks.Size = new System.Drawing.Size(450, 426);
-        dataGridViewMyBooks.TabIndex = 1;
-        // 
         // btnAssignToMe
         // 
         btnAssignToMe.Location = new System.Drawing.Point(91, 391);
@@ -115,6 +83,38 @@ partial class EditorDashboardForm
         btnAssignToMe.Text = "Assign To me";
         btnAssignToMe.UseVisualStyleBackColor = true;
         // 
+        // label1
+        // 
+        label1.Location = new System.Drawing.Point(91, 0);
+        label1.Name = "label1";
+        label1.Size = new System.Drawing.Size(156, 17);
+        label1.TabIndex = 0;
+        label1.Text = "Books Available for Editing";
+        // 
+        // dataGridViewBooksToEdit
+        // 
+        dataGridViewBooksToEdit.Dock = System.Windows.Forms.DockStyle.Fill;
+        dataGridViewBooksToEdit.Location = new System.Drawing.Point(0, 0);
+        dataGridViewBooksToEdit.Name = "dataGridViewBooksToEdit";
+        dataGridViewBooksToEdit.Size = new System.Drawing.Size(346, 426);
+        dataGridViewBooksToEdit.TabIndex = 1;
+        // 
+        // label2
+        // 
+        label2.Location = new System.Drawing.Point(167, 0);
+        label2.Name = "label2";
+        label2.Size = new System.Drawing.Size(112, 19);
+        label2.TabIndex = 0;
+        label2.Text = "My Assigned Books";
+        // 
+        // dataGridViewMyBooks
+        // 
+        dataGridViewMyBooks.Dock = System.Windows.Forms.DockStyle.Fill;
+        dataGridViewMyBooks.Location = new System.Drawing.Point(0, 0);
+        dataGridViewMyBooks.Name = "dataGridViewMyBooks";
+        dataGridViewMyBooks.Size = new System.Drawing.Size(450, 426);
+        dataGridViewMyBooks.TabIndex = 1;
+        // 
         // EditorDashboardForm
         // 
         AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -123,6 +123,7 @@ partial class EditorDashboardForm
         Controls.Add(splitContainer1);
         Controls.Add(menuStrip1);
         MainMenuStrip = menuStrip1;
+        StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
         Text = "EditorDashboardForm";
         splitContainer1.Panel1.ResumeLayout(false);
         splitContainer1.Panel2.ResumeLayout(false);

@@ -148,6 +148,7 @@ partial class CriticDashboardForm
         Controls.Add(comboBooks);
         Controls.Add(menuStrip1);
         MainMenuStrip = menuStrip1;
+        StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
         Text = "CriticDashboardForm";
         ((System.ComponentModel.ISupportInitialize)numericGradeBook).EndInit();
         ((System.ComponentModel.ISupportInitialize)numericGradeCover).EndInit();

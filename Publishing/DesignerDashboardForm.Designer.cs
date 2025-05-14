@@ -93,6 +93,7 @@ partial class DesignerDashboardForm
         Controls.Add(dataGridViewBooksToDesign);
         Controls.Add(menuStrip1);
         MainMenuStrip = menuStrip1;
+        StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
         Text = "DesignerDashboardForm";
         ((System.ComponentModel.ISupportInitialize)dataGridViewBooksToDesign).EndInit();
         ((System.ComponentModel.ISupportInitialize)dataGridViewMyDesigns).EndInit();
