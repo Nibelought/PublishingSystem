@@ -24,13 +24,22 @@ namespace PublishingSystem.BLL
 
         public int AddBook(Book book)
         {
-            // Простая валидация
-            if (string.IsNullOrWhiteSpace(book.Name) || book.IdAuthor <= 0 || book.EstimatedEndDate <= book.StartDate)
+            if (string.IsNullOrWhiteSpace(book.Name) || book.IdAuthor <= 0) // EstimatedEndDate теперь nullable
             {
-                throw new ArgumentException("Invalid book data provided.");
+                throw new ArgumentException("Invalid book data provided (Name and Author are required).");
             }
-            book.State = BookState.in_progress; // Начальное состояние
-            book.StartDate = DateTime.Now.Date; // Дата начала - сегодня
+
+            // StartDate и State устанавливаются здесь или в AuthorDashboardForm
+            book.StartDate = DateTime.Now.Date;
+            book.State = BookState.in_progress;
+
+            // IdEditor, IdDesigner, CoverImagePath, EstimatedEndDate могут быть null
+            // Они должны быть установлены в null в объекте book перед вызовом _bookRepository.Create,
+            // если автор их не предоставляет.
+            // book.IdEditor = null; // Если не назначается сразу
+            // book.IdDesigner = null; // Если не назначается сразу
+            // book.CoverImagePath = null; // Если нет обложки по умолчанию
+
             return _bookRepository.Create(book);
         }
 

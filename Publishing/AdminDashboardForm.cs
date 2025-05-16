@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing; // For Point
 using System.Linq;
 using System.Windows.Forms;
 using PublishingSystem.BLL;
 using PublishingSystem.Models;
-using Publishing;
-using Microsoft.VisualBasic; // For Interaction.InputBox
-using System.Text.RegularExpressions;
+using Publishing; 
+using Microsoft.VisualBasic;
+using System.Text.RegularExpressions; // For email validation
 
 namespace PublishingSystem.UI
 {
@@ -17,19 +18,12 @@ namespace PublishingSystem.UI
         private readonly BookService _bookService;
         private readonly ReviewService _reviewService;
 
-        // Объявляем MenuStrip здесь, если он создается программно
-        // Если он добавлен через Designer (например, с именем this.menuStrip1),
-        // то это поле не нужно, и в InitializeUserMenu нужно использовать this.menuStrip1.
-        // Судя по вашему Designer.cs, menuStripUser там объявлено, но не инициализировано,
-        // что странно. Безопаснее создать его программно здесь.
-        private MenuStrip menuStripUser;
+        private MenuStrip menuStripUser; // This will be created programmatically
         private ToolStripMenuItem menuItemUserActions;
         private ToolStripMenuItem menuItemChangePassword;
         private ToolStripMenuItem menuItemChangeProfile;
         private ToolStripMenuItem menuItemLogout;
 
-
-        // Класс-обертка для ComboBox статуса
         private class StatusDisplay
         {
             public string DisplayName { get; set; }
@@ -39,60 +33,58 @@ namespace PublishingSystem.UI
 
         public AdminDashboardForm(User admin)
         {
-            InitializeComponent();
+            InitializeComponent(); // This initializes tableLayoutPanelMain and tabControlMain
             _admin = admin;
             _userService = new UserService();
             _bookService = new BookService();
             _reviewService = new ReviewService();
 
-            InitializeUserMenu();
+            InitializeUserMenu(); // This creates menuStripUser and adds it to tableLayoutPanelMain
 
-            // Tab settings "Add User" and "View Users"
-            comboRoleFilter.Items.AddRange(new[] { "author", "editor", "critic", "designer" });
+            // Configure controls on tabAddUser
             comboAddRole.Items.AddRange(new[] { "author", "editor", "critic", "designer" });
-
             var statusOptions = new List<StatusDisplay>
             {
                 new StatusDisplay { DisplayName = "Active", Value = true },
                 new StatusDisplay { DisplayName = "Inactive", Value = false }
             };
-            var statusFilterOptions = new List<object> { "All" };
-            statusFilterOptions.AddRange(statusOptions);
-
-            comboAddStatus.DataSource = new List<StatusDisplay>(statusOptions); // List clone
+            comboAddStatus.DataSource = new List<StatusDisplay>(statusOptions);
             comboAddStatus.DisplayMember = "DisplayName";
             comboAddStatus.ValueMember = "Value";
-
-            comboStatusFilter.DataSource = statusFilterOptions; // Be used ToString() for "All" and StatusDisplay
-
-            comboRoleFilter.SelectedIndex = -1;
-            comboStatusFilter.SelectedItem = "All";
-            comboAddRole.SelectedIndex = 0;
+            if (comboAddRole.Items.Count > 0) comboAddRole.SelectedIndex = 0;
             comboAddStatus.SelectedValue = true;
 
+            // Configure controls on tabViewUsers
+            comboRoleFilter.Items.AddRange(new[] { "All Roles", "author", "editor", "critic", "designer" }); // Added "All Roles"
+            var statusFilterOptions = new List<object> { "All" };
+            statusFilterOptions.AddRange(statusOptions);
+            comboStatusFilter.DataSource = statusFilterOptions;
+            comboRoleFilter.SelectedItem = "All Roles";
+            comboStatusFilter.SelectedItem = "All";
+            
             LoadUsers();
             
-            SetupBooksTab();
-            SetupReviewsTab();
+            SetupBooksTabUI(); // Renamed to avoid conflict with TabPage field
+            SetupReviewsTabUI(); // Renamed
 
-            // Привязка событий для элементов (убедитесь, что эти кнопки есть в Designer.cs)
-            if (this.btnGeneratePassword != null) btnGeneratePassword.Click += BtnGeneratePassword_Click;
-            if (this.btnBooksRefresh != null) btnBooksRefresh.Click += (s, e) => LoadBooksAdmin();
-            if (this.btnBookEdit != null) btnBookEdit.Click += BtnBookEdit_Click;
-            if (this.btnBookDelete != null) btnBookDelete.Click += BtnBookDelete_Click;
-            if (this.btnReviewsRefresh != null) btnReviewsRefresh.Click += (s, e) => LoadReviewsAdmin();
-            if (this.btnReviewDelete != null) btnReviewDelete.Click += BtnReviewDelete_Click;
-
-            // Обработчики из Designer.cs должны быть реализованы
-            // btnAddUser.Click += btnAddUser_Click; // Уже привязано в Designer.cs
-            // btnSearch.Click += btnSearch_Click; // Уже привязано в Designer.cs
-            // btnEditUser.Click += btnEditUser_Click; // Уже привязано в Designer.cs
-            // btnDeleteUser.Click += btnDeleteUser_Click; // Уже привязано в Designer.cs
+            // Event handlers for buttons on tabBooks and tabReviews are now assigned in Designer.cs
+            // or should be assigned here if not in Designer.cs for some reason.
+            // Example (if btnBooksRefresh was not wired in Designer):
+            // this.btnBooksRefresh.Click += (s, e) => LoadBooksAdmin();
+            // This is already done for btnAddUser, btnSearch, btnEditUser, btnDeleteUser in Designer.cs.
+            // Ensure btnGeneratePassword, btnBooksRefresh etc. also have their Click events wired up in Designer.cs if you expect them to work.
+            // If they are not wired in Designer.cs (e.g. no this.btnGeneratePassword.Click += ... line), add them here:
+             if (this.btnGeneratePassword != null) this.btnGeneratePassword.Click += BtnGeneratePassword_Click;
+             if (this.btnBooksRefresh != null) this.btnBooksRefresh.Click += (s, e) => LoadBooksAdmin();
+             if (this.btnBookEdit != null) this.btnBookEdit.Click += BtnBookEdit_Click;
+             if (this.btnBookDelete != null) this.btnBookDelete.Click += BtnBookDelete_Click;
+             if (this.btnReviewsRefresh != null) this.btnReviewsRefresh.Click += (s, e) => LoadReviewsAdmin();
+             if (this.btnReviewDelete != null) this.btnReviewDelete.Click += BtnReviewDelete_Click;
         }
 
         private void InitializeUserMenu()
         {
-            this.menuStripUser = new MenuStrip(); // Create MenuStrip with software
+            this.menuStripUser = new MenuStrip();
             this.menuItemUserActions = new ToolStripMenuItem();
             this.menuItemChangePassword = new ToolStripMenuItem();
             this.menuItemChangeProfile = new ToolStripMenuItem();
@@ -100,9 +92,7 @@ namespace PublishingSystem.UI
 
             this.menuStripUser.Items.AddRange(new ToolStripItem[] { this.menuItemUserActions });
             this.menuStripUser.Name = "menuStripUser";
-            this.menuStripUser.Dock = DockStyle.Top; // Располагаем вверху
-            this.Controls.Add(this.menuStripUser);   // Добавляем на форму
-            this.MainMenuStrip = this.menuStripUser; // Устанавливаем как главное меню
+            this.menuStripUser.Dock = DockStyle.Fill; // Fill the cell in TableLayoutPanel
 
             this.menuItemUserActions.DropDownItems.AddRange(new ToolStripItem[] {
                 this.menuItemChangePassword,
@@ -110,7 +100,7 @@ namespace PublishingSystem.UI
                 new ToolStripSeparator(),
                 this.menuItemLogout});
             this.menuItemUserActions.Text = $"{_admin.FirstName} {_admin.LastName}";
-            this.menuItemUserActions.Alignment = ToolStripItemAlignment.Right; // Выровнять текст или сам элемент
+            this.menuItemUserActions.Alignment = ToolStripItemAlignment.Right;
             this.menuItemUserActions.Name = "menuItemUserActions";
 
             this.menuItemChangePassword.Text = "Change Password";
@@ -125,7 +115,14 @@ namespace PublishingSystem.UI
             this.menuItemLogout.Click += MenuItemLogout_Click;
             this.menuItemLogout.Name = "menuItemLogout";
             
-            this.menuStripUser.BringToFront(); // Чтобы было поверх TabControl
+            // Add MenuStrip to the first row of tableLayoutPanelMain
+            if (this.tableLayoutPanelMain != null)
+            {
+                this.tableLayoutPanelMain.Controls.Add(this.menuStripUser, 0, 0);
+                 this.tableLayoutPanelMain.SetColumnSpan(this.menuStripUser, this.tableLayoutPanelMain.ColumnCount);
+            }
+             // Set as main menu strip for the form for standard menu key handling (like Alt keys)
+             this.MainMenuStrip = this.menuStripUser;
         }
 
         private void MenuItemChangePassword_Click(object sender, EventArgs e)
@@ -159,25 +156,30 @@ namespace PublishingSystem.UI
 
         private void LoadUsers()
         {
-            string role = comboRoleFilter.SelectedItem?.ToString();
+            string roleFilter = comboRoleFilter.SelectedItem?.ToString();
+            if (roleFilter == "All Roles") roleFilter = null;
+
             bool? isActiveFilter = null;
             if (comboStatusFilter.SelectedItem is StatusDisplay sd) isActiveFilter = sd.Value;
-            else if (comboStatusFilter.SelectedItem is "All") isActiveFilter = null;
-
+            // No need for "All" string check if "All" is the first item and selectedIndex = 0 means "All" (isActiveFilter = null)
+            
             string email = txtEmailFilter.Text.Trim();
             try
             {
-                dataGridUsers.DataSource = _userService.GetUsers(role, isActiveFilter, email);
+                dataGridUsers.DataSource = _userService.GetUsers(roleFilter, isActiveFilter, email);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error loading users: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        
+        // This method is called by the designer if you named the event handler this way
         private void btnSearch_Click(object sender, EventArgs e)
         {
             LoadUsers();
         }
+
         private void BtnGeneratePassword_Click(object sender, EventArgs e)
         {
             try
@@ -192,19 +194,16 @@ namespace PublishingSystem.UI
         
         private bool IsValidEmail(string email)
         {
-            if (string.IsNullOrWhiteSpace(email))
-                return false;
+            if (string.IsNullOrWhiteSpace(email)) return false;
             try
             {
                 var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
+                return addr.Address == email.Trim();
             }
-            catch
-            {
-                return false;
-            }
+            catch { return false; }
         }
 
+        // This method is called by the designer
         private void btnAddUser_Click(object sender, EventArgs e)
         {
             if (comboAddRole.SelectedItem == null || comboAddStatus.SelectedValue == null ||
@@ -214,15 +213,18 @@ namespace PublishingSystem.UI
                 MessageBox.Show("All fields are required, and role/status must be selected.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            var confirm = MessageBox.Show("Подтвердите правильность введённых данных", "Подтверждение", MessageBoxButtons.YesNo);
-            if (confirm != DialogResult.Yes) return;
-            string email = txtEmail.Text.Trim();
-            if (!IsValidEmail(email))
+            
+            string emailToValidate = txtEmail.Text.Trim();
+            if (!IsValidEmail(emailToValidate))
             {
                 MessageBox.Show("Please enter a valid email address.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtEmail.Focus();
                 return;
             }
+
+            var confirm = MessageBox.Show("Подтвердите правильность введённых данных", "Подтверждение", MessageBoxButtons.YesNo);
+            if (confirm != DialogResult.Yes) return;
+            
             try
             {
                 string plainPassword = txtPassword.Text;
@@ -231,27 +233,22 @@ namespace PublishingSystem.UI
                 {
                     FirstName = txtFirstName.Text.Trim(),
                     LastName = txtLastName.Text.Trim(),
-                    Email = txtEmail.Text.Trim(),
+                    Email = emailToValidate, // Use validated email
                     Password = hashedPassword,
                     Role = comboAddRole.SelectedItem.ToString(),
                     IsActive = (bool)comboAddStatus.SelectedValue
                 };
-                int newUserId = _userService.CreateUser(userToCreate);
+                int newUserId = _userService.CreateUser(userToCreate); // UserService CreateUser should NOT hash again
                 AuditService.LogAdminAction(_admin.Email, $"Created user with role {userToCreate.Role}", newUserId);
 
-                string successMessage = $"User successfully added.\nEmail: {userToCreate.Email}\nPassword: {plainPassword}\n\nPassword copied to clipbo.";
-                try
-                {
-                    Clipboard.SetText(plainPassword); // Copy pass
-                }
+                string successMessage = $"User successfully added.\nEmail: {userToCreate.Email}\nPassword: {plainPassword}\n\nPassword copied to clipboard.";
+                try { Clipboard.SetText(plainPassword); }
                 catch (Exception clipEx)
                 {
-                    successMessage = $"User successfully added.\nEmail: {userToCreate.Email}\nPassword: {plainPassword}\n\n(Не удалось скопировать пароль в буфер: {clipEx.Message})";
-                    Console.WriteLine($"Clipboard error: {clipEx.Message}"); // Log buffer error
+                    successMessage = $"User successfully added.\nEmail: {userToCreate.Email}\nPassword: {plainPassword}\n\n(Could not copy password to clipboard: {clipEx.Message})";
+                    Console.WriteLine($"Clipboard error: {clipEx.Message}");
                 }
-
                 MessageBox.Show(successMessage, "User Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 ClearUserForm();
                 LoadUsers();
             }
@@ -260,29 +257,32 @@ namespace PublishingSystem.UI
                 MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        // This method is called by the designer
         private void btnEditUser_Click(object sender, EventArgs e)
         {
             if (dataGridUsers.SelectedRows.Count != 1)
-            {
-                MessageBox.Show("Please select a single user to edit."); return;
-            }
+            { MessageBox.Show("Please select a single user to edit."); return; }
             var selectedUser = (User)dataGridUsers.SelectedRows[0].DataBoundItem;
-            string newFirstName = Prompt("Edit First Name:", selectedUser.FirstName);
-            if (newFirstName == null) return; // User cancelled
-            string newLastName = Prompt("Edit Last Name:", selectedUser.LastName);
-            if (newLastName == null) return;
+            
+            string newFirstName = Interaction.InputBox("Edit First Name:", "Edit User", selectedUser.FirstName);
+            if (string.IsNullOrEmpty(newFirstName) && newFirstName != selectedUser.FirstName) { /* User might have cleared it, or cancelled if Interaction.InputBox returns empty on cancel */ return; }
+            
+            string newLastName = Interaction.InputBox("Edit Last Name:", "Edit User", selectedUser.LastName);
+            if (string.IsNullOrEmpty(newLastName) && newLastName != selectedUser.LastName) return;
 
-            // Для IsActive лучше использовать ComboBox в диалоге
-            string currentStatus = selectedUser.IsActive ? "active" : "inactive";
-            string newStatusStr = Prompt($"Edit Status (active/inactive):", currentStatus);
-            if (newStatusStr == null) return;
+            string currentStatusStr = selectedUser.IsActive ? "active" : "inactive";
+            string newStatusStr = Interaction.InputBox($"Edit Status (active/inactive):", "Edit User Status", currentStatusStr);
+             if (string.IsNullOrEmpty(newStatusStr) && newStatusStr != currentStatusStr) return;
 
-            bool newIsActive;
-            if (newStatusStr.ToLower() == "active") newIsActive = true;
-            else if (newStatusStr.ToLower() == "inactive") newIsActive = false;
-            else { MessageBox.Show("Invalid status. Enter 'active' or 'inactive'."); return; }
 
-            selectedUser.FirstName = newFirstName;
+            bool newIsActive = selectedUser.IsActive; // Default to current if input is invalid/empty
+            if (newStatusStr.Trim().ToLower() == "active") newIsActive = true;
+            else if (newStatusStr.Trim().ToLower() == "inactive") newIsActive = false;
+            else if (!string.IsNullOrEmpty(newStatusStr) && newStatusStr != currentStatusStr) // only show error if user entered something invalid
+            { MessageBox.Show("Invalid status. Enter 'active' or 'inactive'. Status not changed.", "Input Error"); return; }
+
+            selectedUser.FirstName = newFirstName; // Assign even if empty is user confirmed empty
             selectedUser.LastName = newLastName;
             selectedUser.IsActive = newIsActive;
             try
@@ -294,14 +294,14 @@ namespace PublishingSystem.UI
             }
             catch (Exception ex) { MessageBox.Show("Error updating user: " + ex.Message); }
         }
+
+        // This method is called by the designer
         private void btnDeleteUser_Click(object sender, EventArgs e)
         {
             if (dataGridUsers.SelectedRows.Count != 1)
-            {
-                MessageBox.Show("Please select a single user to delete."); return;
-            }
+            { MessageBox.Show("Please select a single user to delete."); return; }
             var selectedUser = (User)dataGridUsers.SelectedRows[0].DataBoundItem;
-            var confirm = MessageBox.Show($"Are you sure you want to delete user {selectedUser.Email}?", "Confirm Delete", MessageBoxButtons.YesNo);
+            var confirm = MessageBox.Show($"Are you sure you want to delete user {selectedUser.Email}?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (confirm != DialogResult.Yes) return;
             try
             {
@@ -313,7 +313,7 @@ namespace PublishingSystem.UI
             catch (Exception ex) { MessageBox.Show("Error deleting user: " + ex.Message); }
         }
 
-        private void SetupBooksTab()
+        private void SetupBooksTabUI() // Renamed
         {
             dataGridBooks.AutoGenerateColumns = false;
             dataGridBooks.Columns.Clear();
@@ -336,27 +336,27 @@ namespace PublishingSystem.UI
         {
             if (dataGridBooks.SelectedRows.Count != 1) return;
             var selectedBook = (Book)dataGridBooks.SelectedRows[0].DataBoundItem;
-            MessageBox.Show($"Editing book ID: {selectedBook.Id}. Implement a proper edit form.", "Info");
-            // TODO: Открыть форму редактирования книги (BookEditForm), передать selectedBook.
-            // В BookEditForm вызвать _bookService.UpdateBook(editedBook);
+            // TODO: Implement a proper BookEditForm
+            MessageBox.Show($"Editing book ID: {selectedBook.Id}. (Edit form not implemented yet).", "Info");
             LoadBooksAdmin();
         }
         private void BtnBookDelete_Click(object sender, EventArgs e)
         {
             if (dataGridBooks.SelectedRows.Count != 1) return;
             var selectedBook = (Book)dataGridBooks.SelectedRows[0].DataBoundItem;
-            var confirm = MessageBox.Show($"Delete book '{selectedBook.Name}'? This also deletes reviews.", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            var confirm = MessageBox.Show($"Delete book '{selectedBook.Name}' (ID: {selectedBook.Id})?\nThis will also delete associated reviews.", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (confirm != DialogResult.Yes) return;
             try
             {
                 _bookService.DeleteBook(selectedBook.Id);
                 AuditService.LogAdminAction(_admin.Email, $"Deleted book '{selectedBook.Name}'", selectedBook.Id);
+                MessageBox.Show("Book deleted successfully.");
                 LoadBooksAdmin();
             }
             catch (Exception ex) { MessageBox.Show($"Error deleting book: {ex.Message}"); }
         }
 
-        private void SetupReviewsTab()
+        private void SetupReviewsTabUI() // Renamed
         {
             dataGridReviews.AutoGenerateColumns = false;
             dataGridReviews.Columns.Clear();
@@ -364,7 +364,7 @@ namespace PublishingSystem.UI
             dataGridReviews.Columns.Add(new DataGridViewTextBoxColumn { Name = "ReviewBook", DataPropertyName = "BookName", HeaderText = "Book", Width = 200 });
             dataGridReviews.Columns.Add(new DataGridViewTextBoxColumn { Name = "ReviewCritic", DataPropertyName = "CriticName", HeaderText = "Critic", Width = 120 });
             dataGridReviews.Columns.Add(new DataGridViewTextBoxColumn { Name = "ReviewDate", DataPropertyName = "DateTime", HeaderText = "Date", Width = 120, DefaultCellStyle = new DataGridViewCellStyle { Format = "yyyy-MM-dd HH:mm" } });
-            dataGridReviews.Columns.Add(new DataGridViewTextBoxColumn { Name = "ReviewText", DataPropertyName = "RtfText", HeaderText = "Review Text (RTF)", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
+            dataGridReviews.Columns.Add(new DataGridViewTextBoxColumn { Name = "ReviewText", DataPropertyName = "RtfText", HeaderText = "Review Text (RTF)", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill }); // Displaying RTF as plain text
             dataGridReviews.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridReviews.MultiSelect = false;
             dataGridReviews.ReadOnly = true;
@@ -380,21 +380,18 @@ namespace PublishingSystem.UI
         {
             if (dataGridReviews.SelectedRows.Count != 1) return;
             var selectedReview = (Review)dataGridReviews.SelectedRows[0].DataBoundItem;
-            var confirm = MessageBox.Show($"Delete review ID {selectedReview.Id}?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            var confirm = MessageBox.Show($"Delete review ID {selectedReview.Id} by {selectedReview.CriticName} for book '{selectedReview.BookName}'?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (confirm != DialogResult.Yes) return;
             try
             {
                 _reviewService.DeleteReview(selectedReview.Id);
-                AuditService.LogAdminAction(_admin.Email, $"Deleted review ID {selectedReview.Id}", selectedReview.Id);
+                AuditService.LogAdminAction(_admin.Email, $"Deleted review for book '{selectedReview.BookName}' by critic ID {selectedReview.IdCritic}", selectedReview.Id);
+                MessageBox.Show("Review deleted successfully.");
                 LoadReviewsAdmin();
             }
             catch (Exception ex) { MessageBox.Show($"Error deleting review: {ex.Message}"); }
         }
-
-        private string Prompt(string message, string defaultValue)
-        {
-            return Interaction.InputBox(message, "Edit Field", defaultValue);
-        }
+        
         private void ClearUserForm()
         {
             txtFirstName.Clear();
