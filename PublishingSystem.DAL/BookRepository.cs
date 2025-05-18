@@ -126,6 +126,40 @@ namespace PublishingSystem.DAL
                 connection.Execute(sql, new { EditorId = editorId, NewState = BookState.editing.ToString(), BookId = bookId });
             }
         }
+        
+        public void ReleaseBookFromEditor(int bookId)
+        {
+            using (var connection = DbContext.GetConnection())
+            {
+                // Return book to 'in_progress' and clear editor
+                var sql = "UPDATE book SET id_editor = NULL, state = @NewState::book_state WHERE id = @BookId";
+                connection.Execute(sql, new { NewState = BookState.in_progress.ToString(), BookId = bookId });
+            }
+        }
+
+        // Func for change age restriction and status (maybe) by editor
+        public void UpdateBookDetailsByEditor(int bookId, AgeRestriction ageRestriction, BookState? newState = null)
+        {
+            using (var connection = DbContext.GetConnection())
+            {
+                string setStateSql = "";
+                if (newState.HasValue)
+                {
+                    setStateSql = ", state = @NewState::book_state";
+                }
+
+                var sql = $@"UPDATE book 
+                     SET age_restrictions = @AgeRestrictions::age_restriction
+                         {setStateSql}
+                     WHERE id = @BookId";
+        
+                connection.Execute(sql, new { 
+                    AgeRestrictions = ageRestriction.ToString().TrimStart('_').Replace("plus", "+"), 
+                    NewState = newState?.ToString(),
+                    BookId = bookId 
+                });
+            }
+        }
 
         public void AssignDesigner(int bookId, int designerId)
         {

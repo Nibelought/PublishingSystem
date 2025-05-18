@@ -52,6 +52,48 @@ namespace PublishingSystem.BLL
             }
              _bookRepository.AssignEditor(bookId, editorId);
         }
+        
+        public void ReleaseBookFromEditor(int bookId, int currentEditorId)
+        {
+            var book = _bookRepository.GetById(bookId);
+            if (book == null) throw new KeyNotFoundException("Book not found.");
+            if (book.IdEditor != currentEditorId) throw new UnauthorizedAccessException("You are not assigned to this book.");
+
+            _bookRepository.ReleaseBookFromEditor(bookId);
+        }
+
+        public void EditorUpdateBookDetails(int bookId, int currentEditorId, AgeRestriction newAgeRestriction, BookState? targetStateIfChanged = null)
+        {
+            var book = _bookRepository.GetById(bookId);
+            if (book == null) throw new KeyNotFoundException("Book not found.");
+            if (book.IdEditor != currentEditorId) throw new UnauthorizedAccessException("You are not assigned to this book to change its details.");
+
+            // Дополнительная логика: Редактор может менять статус только на 'editing', если книга 'in_progress'
+            // или если он уже работает над ней.
+            BookState? stateToSet = null;
+            if (targetStateIfChanged.HasValue)
+            {
+                if (book.State == BookState.in_progress && targetStateIfChanged.Value == BookState.editing)
+                {
+                    stateToSet = BookState.editing;
+                }
+                else if (book.State == BookState.editing && targetStateIfChanged.Value == BookState.editing) // Просто подтверждение
+                {
+                     stateToSet = BookState.editing; // Остается editing
+                }
+                // Другие переходы статусов редактором могут быть запрещены или требовать других условий
+                // Например, редактор не может сам перевести в 'ready_to_print' или 'published'
+                else if (book.State != targetStateIfChanged.Value) // Если попытка сменить на другой статус, не разрешенный здесь
+                {
+                    // Можно либо выбросить исключение, либо просто не менять статус
+                    // throw new InvalidOperationException($"Editor cannot change book state from {book.State} to {targetStateIfChanged.Value}.");
+                }
+                 if (stateToSet == null && targetStateIfChanged.HasValue) stateToSet = book.State; // Если не меняем, то оставляем текущий для передачи
+            }
+
+
+            _bookRepository.UpdateBookDetailsByEditor(bookId, newAgeRestriction, stateToSet);
+        }
 
         public void AssignDesigner(int bookId, int designerId)
         {

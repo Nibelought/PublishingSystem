@@ -222,11 +222,10 @@ namespace PublishingSystem.UI
                 {
                     Name = bookName,
                     IdAuthor = _currentUser.Id,
-                    EstimatedEndDate = estimatedEndDate.Date, // Используйте .Date, чтобы отбросить время, если не нужно
+                    EstimatedEndDate = estimatedEndDate.Date,
                     AgeRestrictions = ageRestriction,
                     StartDate = DateTime.Now.Date,
                     State = BookState.in_progress,
-                    // Явно устанавливаем null, если значения не предоставлены:
                     IdEditor = null,
                     IdDesigner = null,
                     CoverImagePath = null 
