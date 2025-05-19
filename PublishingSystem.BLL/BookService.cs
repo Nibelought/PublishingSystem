@@ -105,6 +105,17 @@ namespace PublishingSystem.BLL
              _bookRepository.AssignDesigner(bookId, designerId);
         }
         
+        public void ReleaseBookFromDesigner(int bookId, int currentDesignerId)
+        {
+            var book = _bookRepository.GetById(bookId);
+            if (book == null) throw new KeyNotFoundException("Book not found.");
+            if (book.IdDesigner != currentDesignerId) throw new UnauthorizedAccessException("You are not assigned as the designer for this book.");
+
+            _bookRepository.ReleaseBookFromDesigner(bookId);
+            // Также нужно сбросить CoverImagePath, если это подразумевается при освобождении
+            // _bookRepository.UpdateCoverPath(bookId, null); // или путь к заглушке
+        }
+        
         public List<Book> GetBooksByEditor(int editorId) => _bookRepository.GetByEditor(editorId);
         
         public List<Book> GetBooksByDesigner(int designerId) => _bookRepository.GetByDesigner(designerId);

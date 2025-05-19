@@ -169,6 +169,16 @@ namespace PublishingSystem.DAL
                  connection.Execute(sql, new { DesignerId = designerId, NewState = BookState.ready_to_print.ToString(), BookId = bookId });
              }
          }
+        
+        public void ReleaseBookFromDesigner(int bookId)
+        {
+            using (var connection = DbContext.GetConnection())
+            {
+                // Возвращаем книгу в состояние 'editing' (ожидает дизайнера) и убираем дизайнера
+                var sql = "UPDATE book SET id_designer = NULL, state = @NewState::book_state WHERE id = @BookId";
+                connection.Execute(sql, new { NewState = BookState.editing.ToString(), BookId = bookId });
+            }
+        }
 
         public void UpdateCoverPath(int bookId, string relativePath)
         {
