@@ -8,8 +8,8 @@
         private System.ComponentModel.IContainer components = null;
 
         // --- Control Fields ---
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMain; // Main container
-        private System.Windows.Forms.TabControl tabControlMain; // Renamed from tabControl for clarity
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMain;
+        private System.Windows.Forms.TabControl tabControlMain;
         
         private System.Windows.Forms.TabPage tabAddUser;
         private System.Windows.Forms.TextBox txtFirstName;
@@ -71,485 +71,879 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
-            this.tabControlMain = new System.Windows.Forms.TabControl();
-            
-            this.tabAddUser = new System.Windows.Forms.TabPage();
-            this.labelFirstName = new System.Windows.Forms.Label();
-            this.txtFirstName = new System.Windows.Forms.TextBox();
-            this.labelLastName = new System.Windows.Forms.Label();
-            this.txtLastName = new System.Windows.Forms.TextBox();
-            this.labelEmail = new System.Windows.Forms.Label();
-            this.txtEmail = new System.Windows.Forms.TextBox();
-            this.labelPassword = new System.Windows.Forms.Label();
-            this.txtPassword = new System.Windows.Forms.TextBox();
-            this.btnGeneratePassword = new System.Windows.Forms.Button();
-            this.labelRole = new System.Windows.Forms.Label();
-            this.comboAddRole = new System.Windows.Forms.ComboBox();
-            this.labelStatus = new System.Windows.Forms.Label();
-            this.comboAddStatus = new System.Windows.Forms.ComboBox();
-            this.btnAddUser = new System.Windows.Forms.Button();
-            
-            this.tabViewUsers = new System.Windows.Forms.TabPage();
-            this.labelRoleFilter = new System.Windows.Forms.Label();
-            this.comboRoleFilter = new System.Windows.Forms.ComboBox();
-            this.labelStatusFilter = new System.Windows.Forms.Label();
-            this.comboStatusFilter = new System.Windows.Forms.ComboBox();
-            this.labelEmailFilter = new System.Windows.Forms.Label();
-            this.txtEmailFilter = new System.Windows.Forms.TextBox();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.dataGridUsers = new System.Windows.Forms.DataGridView();
-            this.btnEditUser = new System.Windows.Forms.Button();
-            this.btnDeleteUser = new System.Windows.Forms.Button();
-            
-            this.tabBooks = new System.Windows.Forms.TabPage();
-            this.dataGridBooks = new System.Windows.Forms.DataGridView();
-            this.btnBooksRefresh = new System.Windows.Forms.Button();
-            this.btnBookEdit = new System.Windows.Forms.Button();
-            this.btnBookDelete = new System.Windows.Forms.Button();
-            
-            this.tabReviews = new System.Windows.Forms.TabPage();
-            this.dataGridReviews = new System.Windows.Forms.DataGridView();
-            this.btnReviewsRefresh = new System.Windows.Forms.Button();
-            this.btnReviewDelete = new System.Windows.Forms.Button();
-            
-            this.tableLayoutPanelMain.SuspendLayout(); // Begin TableLayoutPanel
-            this.tabControlMain.SuspendLayout();
-            this.tabAddUser.SuspendLayout();
-            this.tabViewUsers.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridUsers)).BeginInit();
-            this.tabBooks.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridBooks)).BeginInit();
-            this.tabReviews.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridReviews)).BeginInit();
-            this.SuspendLayout();
-            
+            tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
+            tabControlMain = new System.Windows.Forms.TabControl();
+            tabAddUser = new System.Windows.Forms.TabPage();
+            labelFirstName = new System.Windows.Forms.Label();
+            txtFirstName = new System.Windows.Forms.TextBox();
+            labelLastName = new System.Windows.Forms.Label();
+            txtLastName = new System.Windows.Forms.TextBox();
+            labelEmail = new System.Windows.Forms.Label();
+            txtEmail = new System.Windows.Forms.TextBox();
+            labelPassword = new System.Windows.Forms.Label();
+            txtPassword = new System.Windows.Forms.TextBox();
+            btnGeneratePassword = new System.Windows.Forms.Button();
+            labelRole = new System.Windows.Forms.Label();
+            comboAddRole = new System.Windows.Forms.ComboBox();
+            labelStatus = new System.Windows.Forms.Label();
+            comboAddStatus = new System.Windows.Forms.ComboBox();
+            btnAddUser = new System.Windows.Forms.Button();
+            tabViewUsers = new System.Windows.Forms.TabPage();
+            labelRoleFilter = new System.Windows.Forms.Label();
+            comboRoleFilter = new System.Windows.Forms.ComboBox();
+            labelStatusFilter = new System.Windows.Forms.Label();
+            comboStatusFilter = new System.Windows.Forms.ComboBox();
+            labelEmailFilter = new System.Windows.Forms.Label();
+            txtEmailFilter = new System.Windows.Forms.TextBox();
+            btnSearch = new System.Windows.Forms.Button();
+            dataGridUsers = new System.Windows.Forms.DataGridView();
+            btnEditUser = new System.Windows.Forms.Button();
+            btnDeleteUser = new System.Windows.Forms.Button();
+            tabBooks = new System.Windows.Forms.TabPage();
+            btnDeepAnalytics = new System.Windows.Forms.Button();
+            btnBookDelete = new System.Windows.Forms.Button();
+            btnBookEdit = new System.Windows.Forms.Button();
+            btnBooksRefresh = new System.Windows.Forms.Button();
+            dataGridBooks = new System.Windows.Forms.DataGridView();
+            tabReviews = new System.Windows.Forms.TabPage();
+            btnReviewDelete = new System.Windows.Forms.Button();
+            btnReviewsRefresh = new System.Windows.Forms.Button();
+            dataGridReviews = new System.Windows.Forms.DataGridView();
+            tabBookAnalytics = new System.Windows.Forms.TabPage();
+            splitContainer1 = new System.Windows.Forms.SplitContainer();
+            lblAnalyticsQuerySelect = new System.Windows.Forms.Label();
+            comboBookAnalyticsQuery = new System.Windows.Forms.ComboBox();
+            btnRunBookAnalyticsQuery = new System.Windows.Forms.Button();
+            panelAnalyticsParamBook = new System.Windows.Forms.Panel();
+            comboAnalyticsBookSelect = new System.Windows.Forms.ComboBox();
+            lblSelectBook = new System.Windows.Forms.Label();
+            panelAnalyticsParamDateRange = new System.Windows.Forms.Panel();
+            lblEndDate = new System.Windows.Forms.Label();
+            lblStartDate = new System.Windows.Forms.Label();
+            dtpAnalyticsEndDate = new System.Windows.Forms.DateTimePicker();
+            dtpAnalyticsStartDate = new System.Windows.Forms.DateTimePicker();
+            panelAnalyticsParamAge = new System.Windows.Forms.Panel();
+            lblAgeRestrictions = new System.Windows.Forms.Label();
+            comboAnalyticsAgeRestriction = new System.Windows.Forms.ComboBox();
+            dataGridBookAnalytics = new System.Windows.Forms.DataGridView();
+            tabUserActivity = new System.Windows.Forms.TabPage();
+            splitContainer2 = new System.Windows.Forms.SplitContainer();
+            lblUserActivityQuerySelect = new System.Windows.Forms.Label();
+            comboUserActivityQuery = new System.Windows.Forms.ComboBox();
+            btnRunUserActivityQuery = new System.Windows.Forms.Button();
+            panelUserActivityParamCritic = new System.Windows.Forms.Panel();
+            comboAnalyticsCriticSelect = new System.Windows.Forms.ComboBox();
+            lblSelectCritic = new System.Windows.Forms.Label();
+            panelUserActivityParamRole = new System.Windows.Forms.Panel();
+            comboUserActivityRole = new System.Windows.Forms.ComboBox();
+            dataGridUserActivity = new System.Windows.Forms.DataGridView();
+            tableLayoutPanelMain.SuspendLayout();
+            tabControlMain.SuspendLayout();
+            tabAddUser.SuspendLayout();
+            tabViewUsers.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridUsers).BeginInit();
+            tabBooks.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridBooks).BeginInit();
+            tabReviews.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridReviews).BeginInit();
+            tabBookAnalytics.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
+            splitContainer1.Panel1.SuspendLayout();
+            splitContainer1.Panel2.SuspendLayout();
+            splitContainer1.SuspendLayout();
+            panelAnalyticsParamBook.SuspendLayout();
+            panelAnalyticsParamDateRange.SuspendLayout();
+            panelAnalyticsParamAge.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridBookAnalytics).BeginInit();
+            tabUserActivity.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer2).BeginInit();
+            splitContainer2.Panel1.SuspendLayout();
+            splitContainer2.Panel2.SuspendLayout();
+            splitContainer2.SuspendLayout();
+            panelUserActivityParamCritic.SuspendLayout();
+            panelUserActivityParamRole.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridUserActivity).BeginInit();
+            SuspendLayout();
             // 
             // tableLayoutPanelMain
             // 
-            this.tableLayoutPanelMain.ColumnCount = 1;
-            this.tableLayoutPanelMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelMain.Controls.Add(this.tabControlMain, 0, 1); // TabControl in the second row
-            // MenuStrip will be added programmatically to row 0 in AdminDashboardForm.cs
-            this.tableLayoutPanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanelMain.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanelMain.Name = "tableLayoutPanelMain";
-            this.tableLayoutPanelMain.RowCount = 2;
-            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F)); // Row for MenuStrip (adjust height as needed)
-            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F)); // Row for TabControl
-            this.tableLayoutPanelMain.Size = new System.Drawing.Size(800, 450);
-            this.tableLayoutPanelMain.TabIndex = 0;
+            tableLayoutPanelMain.ColumnCount = 1;
+            tableLayoutPanelMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            tableLayoutPanelMain.Controls.Add(tabControlMain, 0, 1);
+            tableLayoutPanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            tableLayoutPanelMain.Location = new System.Drawing.Point(0, 0);
+            tableLayoutPanelMain.Name = "tableLayoutPanelMain";
+            tableLayoutPanelMain.RowCount = 2;
+            tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            tableLayoutPanelMain.Size = new System.Drawing.Size(800, 450);
+            tableLayoutPanelMain.TabIndex = 0;
             // 
             // tabControlMain
             // 
-            this.tabControlMain.Controls.Add(this.tabAddUser);
-            this.tabControlMain.Controls.Add(this.tabViewUsers);
-            this.tabControlMain.Controls.Add(this.tabBooks);
-            this.tabControlMain.Controls.Add(this.tabReviews);
-            this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlMain.Location = new System.Drawing.Point(3, 31); // Position within TableLayoutPanel
-            this.tabControlMain.Name = "tabControlMain";
-            this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(794, 416); // Size within TableLayoutPanel
-            this.tabControlMain.TabIndex = 0; // TabIndex within its parent (TableLayoutPanel cell)
+            tabControlMain.Controls.Add(tabAddUser);
+            tabControlMain.Controls.Add(tabViewUsers);
+            tabControlMain.Controls.Add(tabBooks);
+            tabControlMain.Controls.Add(tabReviews);
+            tabControlMain.Controls.Add(tabBookAnalytics);
+            tabControlMain.Controls.Add(tabUserActivity);
+            tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            tabControlMain.Location = new System.Drawing.Point(3, 37);
+            tabControlMain.Name = "tabControlMain";
+            tabControlMain.SelectedIndex = 0;
+            tabControlMain.Size = new System.Drawing.Size(794, 410);
+            tabControlMain.TabIndex = 0;
             // 
             // tabAddUser
             // 
-            this.tabAddUser.Controls.Add(this.labelFirstName);
-            this.tabAddUser.Controls.Add(this.txtFirstName);
-            this.tabAddUser.Controls.Add(this.labelLastName);
-            this.tabAddUser.Controls.Add(this.txtLastName);
-            this.tabAddUser.Controls.Add(this.labelEmail);
-            this.tabAddUser.Controls.Add(this.txtEmail);
-            this.tabAddUser.Controls.Add(this.labelPassword);
-            this.tabAddUser.Controls.Add(this.txtPassword);
-            this.tabAddUser.Controls.Add(this.btnGeneratePassword);
-            this.tabAddUser.Controls.Add(this.labelRole);
-            this.tabAddUser.Controls.Add(this.comboAddRole);
-            this.tabAddUser.Controls.Add(this.labelStatus);
-            this.tabAddUser.Controls.Add(this.comboAddStatus);
-            this.tabAddUser.Controls.Add(this.btnAddUser);
-            this.tabAddUser.Location = new System.Drawing.Point(4, 24);
-            this.tabAddUser.Name = "tabAddUser";
-            this.tabAddUser.Padding = new System.Windows.Forms.Padding(10);
-            this.tabAddUser.Size = new System.Drawing.Size(786, 388);
-            this.tabAddUser.TabIndex = 0;
-            this.tabAddUser.Text = "Manage Users";
-            this.tabAddUser.UseVisualStyleBackColor = true;
+            tabAddUser.Controls.Add(labelFirstName);
+            tabAddUser.Controls.Add(txtFirstName);
+            tabAddUser.Controls.Add(labelLastName);
+            tabAddUser.Controls.Add(txtLastName);
+            tabAddUser.Controls.Add(labelEmail);
+            tabAddUser.Controls.Add(txtEmail);
+            tabAddUser.Controls.Add(labelPassword);
+            tabAddUser.Controls.Add(txtPassword);
+            tabAddUser.Controls.Add(btnGeneratePassword);
+            tabAddUser.Controls.Add(labelRole);
+            tabAddUser.Controls.Add(comboAddRole);
+            tabAddUser.Controls.Add(labelStatus);
+            tabAddUser.Controls.Add(comboAddStatus);
+            tabAddUser.Controls.Add(btnAddUser);
+            tabAddUser.Location = new System.Drawing.Point(4, 24);
+            tabAddUser.Name = "tabAddUser";
+            tabAddUser.Padding = new System.Windows.Forms.Padding(10);
+            tabAddUser.Size = new System.Drawing.Size(786, 382);
+            tabAddUser.TabIndex = 0;
+            tabAddUser.Text = "Manage Users";
+            tabAddUser.UseVisualStyleBackColor = true;
             // 
             // labelFirstName
             // 
-            this.labelFirstName.AutoSize = true;
-            this.labelFirstName.Location = new System.Drawing.Point(13, 16);
-            this.labelFirstName.Name = "labelFirstName";
-            this.labelFirstName.Size = new System.Drawing.Size(67, 15);
-            this.labelFirstName.TabIndex = 0;
-            this.labelFirstName.Text = "First Name:";
+            labelFirstName.AutoSize = true;
+            labelFirstName.Location = new System.Drawing.Point(13, 16);
+            labelFirstName.Name = "labelFirstName";
+            labelFirstName.Size = new System.Drawing.Size(67, 15);
+            labelFirstName.TabIndex = 0;
+            labelFirstName.Text = "First Name:";
             // 
             // txtFirstName
             // 
-            this.txtFirstName.Location = new System.Drawing.Point(100, 13);
-            this.txtFirstName.Name = "txtFirstName";
-            this.txtFirstName.Size = new System.Drawing.Size(200, 23);
-            this.txtFirstName.TabIndex = 1;
+            txtFirstName.Location = new System.Drawing.Point(100, 13);
+            txtFirstName.Name = "txtFirstName";
+            txtFirstName.Size = new System.Drawing.Size(200, 23);
+            txtFirstName.TabIndex = 1;
             // 
             // labelLastName
             // 
-            this.labelLastName.AutoSize = true;
-            this.labelLastName.Location = new System.Drawing.Point(13, 45);
-            this.labelLastName.Name = "labelLastName";
-            this.labelLastName.Size = new System.Drawing.Size(66, 15);
-            this.labelLastName.TabIndex = 2;
-            this.labelLastName.Text = "Last Name:";
+            labelLastName.AutoSize = true;
+            labelLastName.Location = new System.Drawing.Point(13, 45);
+            labelLastName.Name = "labelLastName";
+            labelLastName.Size = new System.Drawing.Size(66, 15);
+            labelLastName.TabIndex = 2;
+            labelLastName.Text = "Last Name:";
             // 
             // txtLastName
             // 
-            this.txtLastName.Location = new System.Drawing.Point(100, 42);
-            this.txtLastName.Name = "txtLastName";
-            this.txtLastName.Size = new System.Drawing.Size(200, 23);
-            this.txtLastName.TabIndex = 3;
+            txtLastName.Location = new System.Drawing.Point(100, 42);
+            txtLastName.Name = "txtLastName";
+            txtLastName.Size = new System.Drawing.Size(200, 23);
+            txtLastName.TabIndex = 3;
             // 
             // labelEmail
             // 
-            this.labelEmail.AutoSize = true;
-            this.labelEmail.Location = new System.Drawing.Point(13, 74);
-            this.labelEmail.Name = "labelEmail";
-            this.labelEmail.Size = new System.Drawing.Size(39, 15);
-            this.labelEmail.TabIndex = 4;
-            this.labelEmail.Text = "Email:";
+            labelEmail.AutoSize = true;
+            labelEmail.Location = new System.Drawing.Point(13, 74);
+            labelEmail.Name = "labelEmail";
+            labelEmail.Size = new System.Drawing.Size(39, 15);
+            labelEmail.TabIndex = 4;
+            labelEmail.Text = "Email:";
             // 
             // txtEmail
             // 
-            this.txtEmail.Location = new System.Drawing.Point(100, 71);
-            this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(200, 23);
-            this.txtEmail.TabIndex = 5;
+            txtEmail.Location = new System.Drawing.Point(100, 71);
+            txtEmail.Name = "txtEmail";
+            txtEmail.Size = new System.Drawing.Size(200, 23);
+            txtEmail.TabIndex = 5;
             // 
             // labelPassword
             // 
-            this.labelPassword.AutoSize = true;
-            this.labelPassword.Location = new System.Drawing.Point(13, 104);
-            this.labelPassword.Name = "labelPassword";
-            this.labelPassword.Size = new System.Drawing.Size(60, 15);
-            this.labelPassword.TabIndex = 6;
-            this.labelPassword.Text = "Password:";
+            labelPassword.AutoSize = true;
+            labelPassword.Location = new System.Drawing.Point(13, 104);
+            labelPassword.Name = "labelPassword";
+            labelPassword.Size = new System.Drawing.Size(60, 15);
+            labelPassword.TabIndex = 6;
+            labelPassword.Text = "Password:";
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(100, 101);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '*';
-            this.txtPassword.Size = new System.Drawing.Size(200, 23);
-            this.txtPassword.TabIndex = 7;
+            txtPassword.Location = new System.Drawing.Point(100, 101);
+            txtPassword.Name = "txtPassword";
+            txtPassword.PasswordChar = '*';
+            txtPassword.Size = new System.Drawing.Size(200, 23);
+            txtPassword.TabIndex = 7;
             // 
             // btnGeneratePassword
             // 
-            this.btnGeneratePassword.Location = new System.Drawing.Point(306, 100);
-            this.btnGeneratePassword.Name = "btnGeneratePassword";
-            this.btnGeneratePassword.Size = new System.Drawing.Size(75, 25);
-            this.btnGeneratePassword.TabIndex = 8;
-            this.btnGeneratePassword.Text = "Generate";
-            this.btnGeneratePassword.UseVisualStyleBackColor = true;
+            btnGeneratePassword.Location = new System.Drawing.Point(306, 100);
+            btnGeneratePassword.Name = "btnGeneratePassword";
+            btnGeneratePassword.Size = new System.Drawing.Size(75, 25);
+            btnGeneratePassword.TabIndex = 8;
+            btnGeneratePassword.Text = "Generate";
+            btnGeneratePassword.UseVisualStyleBackColor = true;
             // 
             // labelRole
             // 
-            this.labelRole.AutoSize = true;
-            this.labelRole.Location = new System.Drawing.Point(13, 133);
-            this.labelRole.Name = "labelRole";
-            this.labelRole.Size = new System.Drawing.Size(33, 15);
-            this.labelRole.TabIndex = 9;
-            this.labelRole.Text = "Role:";
+            labelRole.AutoSize = true;
+            labelRole.Location = new System.Drawing.Point(13, 133);
+            labelRole.Name = "labelRole";
+            labelRole.Size = new System.Drawing.Size(33, 15);
+            labelRole.TabIndex = 9;
+            labelRole.Text = "Role:";
             // 
             // comboAddRole
             // 
-            this.comboAddRole.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboAddRole.FormattingEnabled = true;
-            this.comboAddRole.Location = new System.Drawing.Point(100, 130);
-            this.comboAddRole.Name = "comboAddRole";
-            this.comboAddRole.Size = new System.Drawing.Size(200, 23);
-            this.comboAddRole.TabIndex = 10;
+            comboAddRole.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboAddRole.FormattingEnabled = true;
+            comboAddRole.Location = new System.Drawing.Point(100, 130);
+            comboAddRole.Name = "comboAddRole";
+            comboAddRole.Size = new System.Drawing.Size(200, 23);
+            comboAddRole.TabIndex = 10;
             // 
             // labelStatus
             // 
-            this.labelStatus.AutoSize = true;
-            this.labelStatus.Location = new System.Drawing.Point(13, 162);
-            this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(42, 15);
-            this.labelStatus.TabIndex = 11;
-            this.labelStatus.Text = "Status:";
+            labelStatus.AutoSize = true;
+            labelStatus.Location = new System.Drawing.Point(13, 162);
+            labelStatus.Name = "labelStatus";
+            labelStatus.Size = new System.Drawing.Size(42, 15);
+            labelStatus.TabIndex = 11;
+            labelStatus.Text = "Status:";
             // 
             // comboAddStatus
             // 
-            this.comboAddStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboAddStatus.FormattingEnabled = true;
-            this.comboAddStatus.Location = new System.Drawing.Point(100, 159);
-            this.comboAddStatus.Name = "comboAddStatus";
-            this.comboAddStatus.Size = new System.Drawing.Size(200, 23);
-            this.comboAddStatus.TabIndex = 12;
+            comboAddStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboAddStatus.FormattingEnabled = true;
+            comboAddStatus.Location = new System.Drawing.Point(100, 159);
+            comboAddStatus.Name = "comboAddStatus";
+            comboAddStatus.Size = new System.Drawing.Size(200, 23);
+            comboAddStatus.TabIndex = 12;
             // 
             // btnAddUser
             // 
-            this.btnAddUser.Location = new System.Drawing.Point(100, 198);
-            this.btnAddUser.Name = "btnAddUser";
-            this.btnAddUser.Size = new System.Drawing.Size(100, 30);
-            this.btnAddUser.TabIndex = 13;
-            this.btnAddUser.Text = "Add User";
-            this.btnAddUser.UseVisualStyleBackColor = true;
-            this.btnAddUser.Click += new System.EventHandler(this.btnAddUser_Click);
+            btnAddUser.Location = new System.Drawing.Point(100, 198);
+            btnAddUser.Name = "btnAddUser";
+            btnAddUser.Size = new System.Drawing.Size(100, 30);
+            btnAddUser.TabIndex = 13;
+            btnAddUser.Text = "Add User";
+            btnAddUser.UseVisualStyleBackColor = true;
+            btnAddUser.Click += btnAddUser_Click;
             // 
             // tabViewUsers
             // 
-            this.tabViewUsers.Controls.Add(this.labelRoleFilter);
-            this.tabViewUsers.Controls.Add(this.comboRoleFilter);
-            this.tabViewUsers.Controls.Add(this.labelStatusFilter);
-            this.tabViewUsers.Controls.Add(this.comboStatusFilter);
-            this.tabViewUsers.Controls.Add(this.labelEmailFilter);
-            this.tabViewUsers.Controls.Add(this.txtEmailFilter);
-            this.tabViewUsers.Controls.Add(this.btnSearch);
-            this.tabViewUsers.Controls.Add(this.dataGridUsers);
-            this.tabViewUsers.Controls.Add(this.btnEditUser);
-            this.tabViewUsers.Controls.Add(this.btnDeleteUser);
-            this.tabViewUsers.Location = new System.Drawing.Point(4, 24);
-            this.tabViewUsers.Name = "tabViewUsers";
-            this.tabViewUsers.Padding = new System.Windows.Forms.Padding(10);
-            this.tabViewUsers.Size = new System.Drawing.Size(786, 388);
-            this.tabViewUsers.TabIndex = 1;
-            this.tabViewUsers.Text = "View Users";
-            this.tabViewUsers.UseVisualStyleBackColor = true;
+            tabViewUsers.Controls.Add(labelRoleFilter);
+            tabViewUsers.Controls.Add(comboRoleFilter);
+            tabViewUsers.Controls.Add(labelStatusFilter);
+            tabViewUsers.Controls.Add(comboStatusFilter);
+            tabViewUsers.Controls.Add(labelEmailFilter);
+            tabViewUsers.Controls.Add(txtEmailFilter);
+            tabViewUsers.Controls.Add(btnSearch);
+            tabViewUsers.Controls.Add(dataGridUsers);
+            tabViewUsers.Controls.Add(btnEditUser);
+            tabViewUsers.Controls.Add(btnDeleteUser);
+            tabViewUsers.Location = new System.Drawing.Point(4, 24);
+            tabViewUsers.Name = "tabViewUsers";
+            tabViewUsers.Padding = new System.Windows.Forms.Padding(10);
+            tabViewUsers.Size = new System.Drawing.Size(786, 378);
+            tabViewUsers.TabIndex = 1;
+            tabViewUsers.Text = "View Users";
+            tabViewUsers.UseVisualStyleBackColor = true;
             // 
             // labelRoleFilter
             // 
-            this.labelRoleFilter.AutoSize = true;
-            this.labelRoleFilter.Location = new System.Drawing.Point(13, 16);
-            this.labelRoleFilter.Name = "labelRoleFilter";
-            this.labelRoleFilter.Size = new System.Drawing.Size(33, 15);
-            this.labelRoleFilter.TabIndex = 0;
-            this.labelRoleFilter.Text = "Role:";
+            labelRoleFilter.AutoSize = true;
+            labelRoleFilter.Location = new System.Drawing.Point(13, 16);
+            labelRoleFilter.Name = "labelRoleFilter";
+            labelRoleFilter.Size = new System.Drawing.Size(33, 15);
+            labelRoleFilter.TabIndex = 0;
+            labelRoleFilter.Text = "Role:";
             // 
             // comboRoleFilter
             // 
-            this.comboRoleFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboRoleFilter.FormattingEnabled = true;
-            this.comboRoleFilter.Location = new System.Drawing.Point(52, 13);
-            this.comboRoleFilter.Name = "comboRoleFilter";
-            this.comboRoleFilter.Size = new System.Drawing.Size(121, 23);
-            this.comboRoleFilter.TabIndex = 1;
+            comboRoleFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboRoleFilter.FormattingEnabled = true;
+            comboRoleFilter.Location = new System.Drawing.Point(52, 13);
+            comboRoleFilter.Name = "comboRoleFilter";
+            comboRoleFilter.Size = new System.Drawing.Size(121, 23);
+            comboRoleFilter.TabIndex = 1;
             // 
             // labelStatusFilter
             // 
-            this.labelStatusFilter.AutoSize = true;
-            this.labelStatusFilter.Location = new System.Drawing.Point(188, 16);
-            this.labelStatusFilter.Name = "labelStatusFilter";
-            this.labelStatusFilter.Size = new System.Drawing.Size(42, 15);
-            this.labelStatusFilter.TabIndex = 2;
-            this.labelStatusFilter.Text = "Status:";
+            labelStatusFilter.AutoSize = true;
+            labelStatusFilter.Location = new System.Drawing.Point(188, 16);
+            labelStatusFilter.Name = "labelStatusFilter";
+            labelStatusFilter.Size = new System.Drawing.Size(42, 15);
+            labelStatusFilter.TabIndex = 2;
+            labelStatusFilter.Text = "Status:";
             // 
             // comboStatusFilter
             // 
-            this.comboStatusFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboStatusFilter.FormattingEnabled = true;
-            this.comboStatusFilter.Location = new System.Drawing.Point(236, 13);
-            this.comboStatusFilter.Name = "comboStatusFilter";
-            this.comboStatusFilter.Size = new System.Drawing.Size(121, 23);
-            this.comboStatusFilter.TabIndex = 3;
+            comboStatusFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboStatusFilter.FormattingEnabled = true;
+            comboStatusFilter.Location = new System.Drawing.Point(236, 13);
+            comboStatusFilter.Name = "comboStatusFilter";
+            comboStatusFilter.Size = new System.Drawing.Size(121, 23);
+            comboStatusFilter.TabIndex = 3;
             // 
             // labelEmailFilter
             // 
-            this.labelEmailFilter.AutoSize = true;
-            this.labelEmailFilter.Location = new System.Drawing.Point(372, 16);
-            this.labelEmailFilter.Name = "labelEmailFilter";
-            this.labelEmailFilter.Size = new System.Drawing.Size(39, 15);
-            this.labelEmailFilter.TabIndex = 4;
-            this.labelEmailFilter.Text = "Email:";
+            labelEmailFilter.AutoSize = true;
+            labelEmailFilter.Location = new System.Drawing.Point(372, 16);
+            labelEmailFilter.Name = "labelEmailFilter";
+            labelEmailFilter.Size = new System.Drawing.Size(39, 15);
+            labelEmailFilter.TabIndex = 4;
+            labelEmailFilter.Text = "Email:";
             // 
             // txtEmailFilter
             // 
-            this.txtEmailFilter.Location = new System.Drawing.Point(417, 13);
-            this.txtEmailFilter.Name = "txtEmailFilter";
-            this.txtEmailFilter.Size = new System.Drawing.Size(150, 23);
-            this.txtEmailFilter.TabIndex = 5;
+            txtEmailFilter.Location = new System.Drawing.Point(417, 13);
+            txtEmailFilter.Name = "txtEmailFilter";
+            txtEmailFilter.Size = new System.Drawing.Size(150, 23);
+            txtEmailFilter.TabIndex = 5;
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(582, 12);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(75, 25);
-            this.btnSearch.TabIndex = 6;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            btnSearch.Location = new System.Drawing.Point(582, 12);
+            btnSearch.Name = "btnSearch";
+            btnSearch.Size = new System.Drawing.Size(75, 25);
+            btnSearch.TabIndex = 6;
+            btnSearch.Text = "Search";
+            btnSearch.UseVisualStyleBackColor = true;
+            btnSearch.Click += btnSearch_Click;
             // 
             // dataGridUsers
             // 
-            this.dataGridUsers.AllowUserToAddRows = false;
-            this.dataGridUsers.AllowUserToDeleteRows = false;
-            this.dataGridUsers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridUsers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridUsers.Location = new System.Drawing.Point(13, 49);
-            this.dataGridUsers.Name = "dataGridUsers";
-            this.dataGridUsers.ReadOnly = true;
-            this.dataGridUsers.RowTemplate.Height = 25;
-            this.dataGridUsers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridUsers.Size = new System.Drawing.Size(760, 284);
-            this.dataGridUsers.TabIndex = 7;
+            dataGridUsers.AllowUserToAddRows = false;
+            dataGridUsers.AllowUserToDeleteRows = false;
+            dataGridUsers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right));
+            dataGridUsers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridUsers.Location = new System.Drawing.Point(13, 49);
+            dataGridUsers.Name = "dataGridUsers";
+            dataGridUsers.ReadOnly = true;
+            dataGridUsers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            dataGridUsers.Size = new System.Drawing.Size(760, 274);
+            dataGridUsers.TabIndex = 7;
             // 
             // btnEditUser
             // 
-            this.btnEditUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnEditUser.Location = new System.Drawing.Point(13, 345);
-            this.btnEditUser.Name = "btnEditUser";
-            this.btnEditUser.Size = new System.Drawing.Size(100, 30);
-            this.btnEditUser.TabIndex = 8;
-            this.btnEditUser.Text = "Edit Selected";
-            this.btnEditUser.UseVisualStyleBackColor = true;
-            this.btnEditUser.Click += new System.EventHandler(this.btnEditUser_Click);
+            btnEditUser.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left));
+            btnEditUser.Location = new System.Drawing.Point(13, 335);
+            btnEditUser.Name = "btnEditUser";
+            btnEditUser.Size = new System.Drawing.Size(100, 30);
+            btnEditUser.TabIndex = 8;
+            btnEditUser.Text = "Edit Selected";
+            btnEditUser.UseVisualStyleBackColor = true;
+            btnEditUser.Click += btnEditUser_Click;
             // 
             // btnDeleteUser
             // 
-            this.btnDeleteUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnDeleteUser.Location = new System.Drawing.Point(123, 345);
-            this.btnDeleteUser.Name = "btnDeleteUser";
-            this.btnDeleteUser.Size = new System.Drawing.Size(110, 30);
-            this.btnDeleteUser.TabIndex = 9;
-            this.btnDeleteUser.Text = "Delete Selected";
-            this.btnDeleteUser.UseVisualStyleBackColor = true;
-            this.btnDeleteUser.Click += new System.EventHandler(this.btnDeleteUser_Click);
+            btnDeleteUser.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left));
+            btnDeleteUser.Location = new System.Drawing.Point(123, 335);
+            btnDeleteUser.Name = "btnDeleteUser";
+            btnDeleteUser.Size = new System.Drawing.Size(110, 30);
+            btnDeleteUser.TabIndex = 9;
+            btnDeleteUser.Text = "Delete Selected";
+            btnDeleteUser.UseVisualStyleBackColor = true;
+            btnDeleteUser.Click += btnDeleteUser_Click;
             // 
             // tabBooks
             // 
-            this.tabBooks.Controls.Add(this.btnBookDelete);
-            this.tabBooks.Controls.Add(this.btnBookEdit);
-            this.tabBooks.Controls.Add(this.btnBooksRefresh);
-            this.tabBooks.Controls.Add(this.dataGridBooks);
-            this.tabBooks.Location = new System.Drawing.Point(4, 24);
-            this.tabBooks.Name = "tabBooks";
-            this.tabBooks.Padding = new System.Windows.Forms.Padding(10);
-            this.tabBooks.Size = new System.Drawing.Size(786, 388);
-            this.tabBooks.TabIndex = 2;
-            this.tabBooks.Text = "Books";
-            this.tabBooks.UseVisualStyleBackColor = true;
+            tabBooks.Controls.Add(btnDeepAnalytics);
+            tabBooks.Controls.Add(btnBookDelete);
+            tabBooks.Controls.Add(btnBookEdit);
+            tabBooks.Controls.Add(btnBooksRefresh);
+            tabBooks.Controls.Add(dataGridBooks);
+            tabBooks.Location = new System.Drawing.Point(4, 24);
+            tabBooks.Name = "tabBooks";
+            tabBooks.Padding = new System.Windows.Forms.Padding(10);
+            tabBooks.Size = new System.Drawing.Size(786, 378);
+            tabBooks.TabIndex = 2;
+            tabBooks.Text = "Books";
+            tabBooks.UseVisualStyleBackColor = true;
             // 
-            // dataGridBooks
+            // btnDeepAnalytics
             // 
-            this.dataGridBooks.AllowUserToAddRows = false;
-            this.dataGridBooks.AllowUserToDeleteRows = false;
-            this.dataGridBooks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridBooks.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridBooks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridBooks.Location = new System.Drawing.Point(13, 13);
-            this.dataGridBooks.Name = "dataGridBooks";
-            this.dataGridBooks.ReadOnly = true;
-            this.dataGridBooks.RowTemplate.Height = 25;
-            this.dataGridBooks.Size = new System.Drawing.Size(760, 323);
-            this.dataGridBooks.TabIndex = 0;
-            // 
-            // btnBooksRefresh
-            // 
-            this.btnBooksRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnBooksRefresh.Location = new System.Drawing.Point(13, 345);
-            this.btnBooksRefresh.Name = "btnBooksRefresh";
-            this.btnBooksRefresh.Size = new System.Drawing.Size(75, 30);
-            this.btnBooksRefresh.TabIndex = 1;
-            this.btnBooksRefresh.Text = "Refresh";
-            this.btnBooksRefresh.UseVisualStyleBackColor = true;
-            // 
-            // btnBookEdit
-            // 
-            this.btnBookEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnBookEdit.Location = new System.Drawing.Point(94, 345);
-            this.btnBookEdit.Name = "btnBookEdit";
-            this.btnBookEdit.Size = new System.Drawing.Size(75, 30);
-            this.btnBookEdit.TabIndex = 2;
-            this.btnBookEdit.Text = "Edit";
-            this.btnBookEdit.UseVisualStyleBackColor = true;
+            btnDeepAnalytics.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left));
+            btnDeepAnalytics.Enabled = false;
+            btnDeepAnalytics.Location = new System.Drawing.Point(256, 331);
+            btnDeepAnalytics.Name = "btnDeepAnalytics";
+            btnDeepAnalytics.Size = new System.Drawing.Size(75, 39);
+            btnDeepAnalytics.TabIndex = 4;
+            btnDeepAnalytics.Text = "Deep Analytics";
+            btnDeepAnalytics.UseVisualStyleBackColor = true;
             // 
             // btnBookDelete
             // 
-            this.btnBookDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnBookDelete.Location = new System.Drawing.Point(175, 345);
-            this.btnBookDelete.Name = "btnBookDelete";
-            this.btnBookDelete.Size = new System.Drawing.Size(75, 30);
-            this.btnBookDelete.TabIndex = 3;
-            this.btnBookDelete.Text = "Delete";
-            this.btnBookDelete.UseVisualStyleBackColor = true;
+            btnBookDelete.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left));
+            btnBookDelete.Location = new System.Drawing.Point(175, 335);
+            btnBookDelete.Name = "btnBookDelete";
+            btnBookDelete.Size = new System.Drawing.Size(75, 30);
+            btnBookDelete.TabIndex = 3;
+            btnBookDelete.Text = "Delete";
+            btnBookDelete.UseVisualStyleBackColor = true;
+            // 
+            // btnBookEdit
+            // 
+            btnBookEdit.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left));
+            btnBookEdit.Location = new System.Drawing.Point(94, 335);
+            btnBookEdit.Name = "btnBookEdit";
+            btnBookEdit.Size = new System.Drawing.Size(75, 30);
+            btnBookEdit.TabIndex = 2;
+            btnBookEdit.Text = "Edit";
+            btnBookEdit.UseVisualStyleBackColor = true;
+            // 
+            // btnBooksRefresh
+            // 
+            btnBooksRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left));
+            btnBooksRefresh.Location = new System.Drawing.Point(13, 335);
+            btnBooksRefresh.Name = "btnBooksRefresh";
+            btnBooksRefresh.Size = new System.Drawing.Size(75, 30);
+            btnBooksRefresh.TabIndex = 1;
+            btnBooksRefresh.Text = "Refresh";
+            btnBooksRefresh.UseVisualStyleBackColor = true;
+            // 
+            // dataGridBooks
+            // 
+            dataGridBooks.AllowUserToAddRows = false;
+            dataGridBooks.AllowUserToDeleteRows = false;
+            dataGridBooks.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right));
+            dataGridBooks.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridBooks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridBooks.Location = new System.Drawing.Point(13, 13);
+            dataGridBooks.Name = "dataGridBooks";
+            dataGridBooks.ReadOnly = true;
+            dataGridBooks.Size = new System.Drawing.Size(760, 313);
+            dataGridBooks.TabIndex = 0;
             // 
             // tabReviews
             // 
-            this.tabReviews.Controls.Add(this.btnReviewDelete);
-            this.tabReviews.Controls.Add(this.btnReviewsRefresh);
-            this.tabReviews.Controls.Add(this.dataGridReviews);
-            this.tabReviews.Location = new System.Drawing.Point(4, 24);
-            this.tabReviews.Name = "tabReviews";
-            this.tabReviews.Padding = new System.Windows.Forms.Padding(10);
-            this.tabReviews.Size = new System.Drawing.Size(786, 388);
-            this.tabReviews.TabIndex = 3;
-            this.tabReviews.Text = "Reviews";
-            this.tabReviews.UseVisualStyleBackColor = true;
-            // 
-            // dataGridReviews
-            // 
-            this.dataGridReviews.AllowUserToAddRows = false;
-            this.dataGridReviews.AllowUserToDeleteRows = false;
-            this.dataGridReviews.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridReviews.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridReviews.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridReviews.Location = new System.Drawing.Point(13, 13);
-            this.dataGridReviews.Name = "dataGridReviews";
-            this.dataGridReviews.ReadOnly = true;
-            this.dataGridReviews.RowTemplate.Height = 25;
-            this.dataGridReviews.Size = new System.Drawing.Size(760, 323);
-            this.dataGridReviews.TabIndex = 0;
-            // 
-            // btnReviewsRefresh
-            // 
-            this.btnReviewsRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnReviewsRefresh.Location = new System.Drawing.Point(13, 345);
-            this.btnReviewsRefresh.Name = "btnReviewsRefresh";
-            this.btnReviewsRefresh.Size = new System.Drawing.Size(75, 30);
-            this.btnReviewsRefresh.TabIndex = 1;
-            this.btnReviewsRefresh.Text = "Refresh";
-            this.btnReviewsRefresh.UseVisualStyleBackColor = true;
+            tabReviews.Controls.Add(btnReviewDelete);
+            tabReviews.Controls.Add(btnReviewsRefresh);
+            tabReviews.Controls.Add(dataGridReviews);
+            tabReviews.Location = new System.Drawing.Point(4, 24);
+            tabReviews.Name = "tabReviews";
+            tabReviews.Padding = new System.Windows.Forms.Padding(10);
+            tabReviews.Size = new System.Drawing.Size(786, 378);
+            tabReviews.TabIndex = 3;
+            tabReviews.Text = "Reviews";
+            tabReviews.UseVisualStyleBackColor = true;
             // 
             // btnReviewDelete
             // 
-            this.btnReviewDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnReviewDelete.Location = new System.Drawing.Point(94, 345);
-            this.btnReviewDelete.Name = "btnReviewDelete";
-            this.btnReviewDelete.Size = new System.Drawing.Size(75, 30);
-            this.btnReviewDelete.TabIndex = 2;
-            this.btnReviewDelete.Text = "Delete";
-            this.btnReviewDelete.UseVisualStyleBackColor = true;
+            btnReviewDelete.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left));
+            btnReviewDelete.Location = new System.Drawing.Point(94, 335);
+            btnReviewDelete.Name = "btnReviewDelete";
+            btnReviewDelete.Size = new System.Drawing.Size(75, 30);
+            btnReviewDelete.TabIndex = 2;
+            btnReviewDelete.Text = "Delete";
+            btnReviewDelete.UseVisualStyleBackColor = true;
+            // 
+            // btnReviewsRefresh
+            // 
+            btnReviewsRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left));
+            btnReviewsRefresh.Location = new System.Drawing.Point(13, 335);
+            btnReviewsRefresh.Name = "btnReviewsRefresh";
+            btnReviewsRefresh.Size = new System.Drawing.Size(75, 30);
+            btnReviewsRefresh.TabIndex = 1;
+            btnReviewsRefresh.Text = "Refresh";
+            btnReviewsRefresh.UseVisualStyleBackColor = true;
+            // 
+            // dataGridReviews
+            // 
+            dataGridReviews.AllowUserToAddRows = false;
+            dataGridReviews.AllowUserToDeleteRows = false;
+            dataGridReviews.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right));
+            dataGridReviews.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridReviews.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridReviews.Location = new System.Drawing.Point(13, 13);
+            dataGridReviews.Name = "dataGridReviews";
+            dataGridReviews.ReadOnly = true;
+            dataGridReviews.Size = new System.Drawing.Size(760, 313);
+            dataGridReviews.TabIndex = 0;
+            // 
+            // tabBookAnalytics
+            // 
+            tabBookAnalytics.Controls.Add(splitContainer1);
+            tabBookAnalytics.Location = new System.Drawing.Point(4, 24);
+            tabBookAnalytics.Name = "tabBookAnalytics";
+            tabBookAnalytics.Padding = new System.Windows.Forms.Padding(3);
+            tabBookAnalytics.Size = new System.Drawing.Size(786, 378);
+            tabBookAnalytics.TabIndex = 4;
+            tabBookAnalytics.Text = "Book Analytics";
+            tabBookAnalytics.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer1
+            // 
+            splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            splitContainer1.Location = new System.Drawing.Point(3, 3);
+            splitContainer1.Name = "splitContainer1";
+            splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            splitContainer1.Panel1.Controls.Add(lblAnalyticsQuerySelect);
+            splitContainer1.Panel1.Controls.Add(comboBookAnalyticsQuery);
+            splitContainer1.Panel1.Controls.Add(btnRunBookAnalyticsQuery);
+            splitContainer1.Panel1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            // 
+            // splitContainer1.Panel2
+            // 
+            splitContainer1.Panel2.Controls.Add(panelAnalyticsParamBook);
+            splitContainer1.Panel2.Controls.Add(panelAnalyticsParamDateRange);
+            splitContainer1.Panel2.Controls.Add(panelAnalyticsParamAge);
+            splitContainer1.Panel2.Controls.Add(dataGridBookAnalytics);
+            splitContainer1.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            splitContainer1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            splitContainer1.Size = new System.Drawing.Size(780, 372);
+            splitContainer1.SplitterDistance = 27;
+            splitContainer1.TabIndex = 6;
+            // 
+            // lblAnalyticsQuerySelect
+            // 
+            lblAnalyticsQuerySelect.Location = new System.Drawing.Point(3, 1);
+            lblAnalyticsQuerySelect.Name = "lblAnalyticsQuerySelect";
+            lblAnalyticsQuerySelect.Size = new System.Drawing.Size(79, 18);
+            lblAnalyticsQuerySelect.TabIndex = 0;
+            lblAnalyticsQuerySelect.Text = "Select Report:";
+            // 
+            // comboBookAnalyticsQuery
+            // 
+            comboBookAnalyticsQuery.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBookAnalyticsQuery.FormattingEnabled = true;
+            comboBookAnalyticsQuery.Location = new System.Drawing.Point(88, 1);
+            comboBookAnalyticsQuery.Name = "comboBookAnalyticsQuery";
+            comboBookAnalyticsQuery.Size = new System.Drawing.Size(224, 23);
+            comboBookAnalyticsQuery.TabIndex = 1;
+            // 
+            // btnRunBookAnalyticsQuery
+            // 
+            btnRunBookAnalyticsQuery.Location = new System.Drawing.Point(318, 0);
+            btnRunBookAnalyticsQuery.Name = "btnRunBookAnalyticsQuery";
+            btnRunBookAnalyticsQuery.Size = new System.Drawing.Size(79, 24);
+            btnRunBookAnalyticsQuery.TabIndex = 2;
+            btnRunBookAnalyticsQuery.Text = "Run Report";
+            btnRunBookAnalyticsQuery.UseVisualStyleBackColor = true;
+            // 
+            // panelAnalyticsParamBook
+            // 
+            panelAnalyticsParamBook.Controls.Add(comboAnalyticsBookSelect);
+            panelAnalyticsParamBook.Controls.Add(lblSelectBook);
+            panelAnalyticsParamBook.Location = new System.Drawing.Point(528, 3);
+            panelAnalyticsParamBook.Name = "panelAnalyticsParamBook";
+            panelAnalyticsParamBook.Size = new System.Drawing.Size(249, 39);
+            panelAnalyticsParamBook.TabIndex = 6;
+            panelAnalyticsParamBook.Visible = false;
+            // 
+            // comboAnalyticsBookSelect
+            // 
+            comboAnalyticsBookSelect.DisplayMember = "Name";
+            comboAnalyticsBookSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboAnalyticsBookSelect.FormattingEnabled = true;
+            comboAnalyticsBookSelect.Location = new System.Drawing.Point(88, 8);
+            comboAnalyticsBookSelect.Name = "comboAnalyticsBookSelect";
+            comboAnalyticsBookSelect.Size = new System.Drawing.Size(155, 23);
+            comboAnalyticsBookSelect.TabIndex = 1;
+            comboAnalyticsBookSelect.ValueMember = "Id";
+            // 
+            // lblSelectBook
+            // 
+            lblSelectBook.Location = new System.Drawing.Point(11, 11);
+            lblSelectBook.Name = "lblSelectBook";
+            lblSelectBook.Size = new System.Drawing.Size(71, 15);
+            lblSelectBook.TabIndex = 0;
+            lblSelectBook.Text = "Select Book:";
+            // 
+            // panelAnalyticsParamDateRange
+            // 
+            panelAnalyticsParamDateRange.Controls.Add(lblEndDate);
+            panelAnalyticsParamDateRange.Controls.Add(lblStartDate);
+            panelAnalyticsParamDateRange.Controls.Add(dtpAnalyticsEndDate);
+            panelAnalyticsParamDateRange.Controls.Add(dtpAnalyticsStartDate);
+            panelAnalyticsParamDateRange.Location = new System.Drawing.Point(571, 48);
+            panelAnalyticsParamDateRange.Name = "panelAnalyticsParamDateRange";
+            panelAnalyticsParamDateRange.Size = new System.Drawing.Size(206, 60);
+            panelAnalyticsParamDateRange.TabIndex = 4;
+            panelAnalyticsParamDateRange.Visible = false;
+            // 
+            // lblEndDate
+            // 
+            lblEndDate.Location = new System.Drawing.Point(5, 36);
+            lblEndDate.Name = "lblEndDate";
+            lblEndDate.Size = new System.Drawing.Size(62, 19);
+            lblEndDate.TabIndex = 3;
+            lblEndDate.Text = "End Date:";
+            // 
+            // lblStartDate
+            // 
+            lblStartDate.Location = new System.Drawing.Point(5, 7);
+            lblStartDate.Name = "lblStartDate";
+            lblStartDate.Size = new System.Drawing.Size(62, 19);
+            lblStartDate.TabIndex = 2;
+            lblStartDate.Text = "Start Date:";
+            // 
+            // dtpAnalyticsEndDate
+            // 
+            dtpAnalyticsEndDate.Location = new System.Drawing.Point(73, 32);
+            dtpAnalyticsEndDate.Name = "dtpAnalyticsEndDate";
+            dtpAnalyticsEndDate.Size = new System.Drawing.Size(127, 23);
+            dtpAnalyticsEndDate.TabIndex = 1;
+            // 
+            // dtpAnalyticsStartDate
+            // 
+            dtpAnalyticsStartDate.Location = new System.Drawing.Point(73, 3);
+            dtpAnalyticsStartDate.Name = "dtpAnalyticsStartDate";
+            dtpAnalyticsStartDate.Size = new System.Drawing.Size(127, 23);
+            dtpAnalyticsStartDate.TabIndex = 0;
+            // 
+            // panelAnalyticsParamAge
+            // 
+            panelAnalyticsParamAge.Controls.Add(lblAgeRestrictions);
+            panelAnalyticsParamAge.Controls.Add(comboAnalyticsAgeRestriction);
+            panelAnalyticsParamAge.Location = new System.Drawing.Point(594, 114);
+            panelAnalyticsParamAge.Name = "panelAnalyticsParamAge";
+            panelAnalyticsParamAge.Size = new System.Drawing.Size(183, 33);
+            panelAnalyticsParamAge.TabIndex = 5;
+            panelAnalyticsParamAge.Visible = false;
+            // 
+            // lblAgeRestrictions
+            // 
+            lblAgeRestrictions.Location = new System.Drawing.Point(5, 10);
+            lblAgeRestrictions.Name = "lblAgeRestrictions";
+            lblAgeRestrictions.Size = new System.Drawing.Size(90, 16);
+            lblAgeRestrictions.TabIndex = 1;
+            lblAgeRestrictions.Text = "Age Restriction:";
+            // 
+            // comboAnalyticsAgeRestriction
+            // 
+            comboAnalyticsAgeRestriction.FormattingEnabled = true;
+            comboAnalyticsAgeRestriction.Location = new System.Drawing.Point(101, 7);
+            comboAnalyticsAgeRestriction.Name = "comboAnalyticsAgeRestriction";
+            comboAnalyticsAgeRestriction.Size = new System.Drawing.Size(76, 23);
+            comboAnalyticsAgeRestriction.TabIndex = 0;
+            // 
+            // dataGridBookAnalytics
+            // 
+            dataGridBookAnalytics.AllowUserToAddRows = false;
+            dataGridBookAnalytics.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            dataGridBookAnalytics.Dock = System.Windows.Forms.DockStyle.Fill;
+            dataGridBookAnalytics.Location = new System.Drawing.Point(0, 0);
+            dataGridBookAnalytics.Name = "dataGridBookAnalytics";
+            dataGridBookAnalytics.ReadOnly = true;
+            dataGridBookAnalytics.Size = new System.Drawing.Size(780, 341);
+            dataGridBookAnalytics.TabIndex = 3;
+            // 
+            // tabUserActivity
+            // 
+            tabUserActivity.Controls.Add(splitContainer2);
+            tabUserActivity.Location = new System.Drawing.Point(4, 24);
+            tabUserActivity.Name = "tabUserActivity";
+            tabUserActivity.Padding = new System.Windows.Forms.Padding(3);
+            tabUserActivity.Size = new System.Drawing.Size(786, 378);
+            tabUserActivity.TabIndex = 5;
+            tabUserActivity.Text = "User Activity & Assignments";
+            tabUserActivity.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer2
+            // 
+            splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            splitContainer2.Location = new System.Drawing.Point(3, 3);
+            splitContainer2.Name = "splitContainer2";
+            splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel1
+            // 
+            splitContainer2.Panel1.Controls.Add(lblUserActivityQuerySelect);
+            splitContainer2.Panel1.Controls.Add(comboUserActivityQuery);
+            splitContainer2.Panel1.Controls.Add(btnRunUserActivityQuery);
+            // 
+            // splitContainer2.Panel2
+            // 
+            splitContainer2.Panel2.Controls.Add(panelUserActivityParamCritic);
+            splitContainer2.Panel2.Controls.Add(panelUserActivityParamRole);
+            splitContainer2.Panel2.Controls.Add(dataGridUserActivity);
+            splitContainer2.Size = new System.Drawing.Size(780, 372);
+            splitContainer2.SplitterDistance = 27;
+            splitContainer2.TabIndex = 4;
+            // 
+            // lblUserActivityQuerySelect
+            // 
+            lblUserActivityQuerySelect.Location = new System.Drawing.Point(3, 6);
+            lblUserActivityQuerySelect.Name = "lblUserActivityQuerySelect";
+            lblUserActivityQuerySelect.Size = new System.Drawing.Size(79, 18);
+            lblUserActivityQuerySelect.TabIndex = 0;
+            lblUserActivityQuerySelect.Text = "Select Report:";
+            // 
+            // comboUserActivityQuery
+            // 
+            comboUserActivityQuery.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboUserActivityQuery.FormattingEnabled = true;
+            comboUserActivityQuery.Location = new System.Drawing.Point(88, 3);
+            comboUserActivityQuery.Name = "comboUserActivityQuery";
+            comboUserActivityQuery.Size = new System.Drawing.Size(102, 23);
+            comboUserActivityQuery.TabIndex = 1;
+            // 
+            // btnRunUserActivityQuery
+            // 
+            btnRunUserActivityQuery.Location = new System.Drawing.Point(196, 3);
+            btnRunUserActivityQuery.Name = "btnRunUserActivityQuery";
+            btnRunUserActivityQuery.Size = new System.Drawing.Size(94, 23);
+            btnRunUserActivityQuery.TabIndex = 2;
+            btnRunUserActivityQuery.Text = "Run Report";
+            btnRunUserActivityQuery.UseVisualStyleBackColor = true;
+            // 
+            // panelUserActivityParamCritic
+            // 
+            panelUserActivityParamCritic.Controls.Add(comboAnalyticsCriticSelect);
+            panelUserActivityParamCritic.Controls.Add(lblSelectCritic);
+            panelUserActivityParamCritic.Location = new System.Drawing.Point(528, 3);
+            panelUserActivityParamCritic.Name = "panelUserActivityParamCritic";
+            panelUserActivityParamCritic.Size = new System.Drawing.Size(249, 39);
+            panelUserActivityParamCritic.TabIndex = 7;
+            panelUserActivityParamCritic.Visible = false;
+            // 
+            // comboAnalyticsCriticSelect
+            // 
+            comboAnalyticsCriticSelect.DisplayMember = "FullName";
+            comboAnalyticsCriticSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboAnalyticsCriticSelect.FormattingEnabled = true;
+            comboAnalyticsCriticSelect.Location = new System.Drawing.Point(88, 8);
+            comboAnalyticsCriticSelect.Name = "comboAnalyticsCriticSelect";
+            comboAnalyticsCriticSelect.Size = new System.Drawing.Size(155, 23);
+            comboAnalyticsCriticSelect.TabIndex = 1;
+            comboAnalyticsCriticSelect.ValueMember = "Id";
+            // 
+            // lblSelectCritic
+            // 
+            lblSelectCritic.Location = new System.Drawing.Point(11, 11);
+            lblSelectCritic.Name = "lblSelectCritic";
+            lblSelectCritic.Size = new System.Drawing.Size(79, 20);
+            lblSelectCritic.TabIndex = 0;
+            lblSelectCritic.Text = "Select Critic:";
+            // 
+            // panelUserActivityParamRole
+            // 
+            panelUserActivityParamRole.Controls.Add(comboUserActivityRole);
+            panelUserActivityParamRole.Location = new System.Drawing.Point(669, 48);
+            panelUserActivityParamRole.Name = "panelUserActivityParamRole";
+            panelUserActivityParamRole.Size = new System.Drawing.Size(108, 29);
+            panelUserActivityParamRole.TabIndex = 5;
+            // 
+            // comboUserActivityRole
+            // 
+            comboUserActivityRole.FormattingEnabled = true;
+            comboUserActivityRole.Location = new System.Drawing.Point(3, 3);
+            comboUserActivityRole.Name = "comboUserActivityRole";
+            comboUserActivityRole.Size = new System.Drawing.Size(102, 23);
+            comboUserActivityRole.TabIndex = 0;
+            // 
+            // dataGridUserActivity
+            // 
+            dataGridUserActivity.AllowUserToAddRows = false;
+            dataGridUserActivity.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            dataGridUserActivity.Dock = System.Windows.Forms.DockStyle.Fill;
+            dataGridUserActivity.Location = new System.Drawing.Point(0, 0);
+            dataGridUserActivity.Name = "dataGridUserActivity";
+            dataGridUserActivity.ReadOnly = true;
+            dataGridUserActivity.Size = new System.Drawing.Size(780, 341);
+            dataGridUserActivity.TabIndex = 3;
             // 
             // AdminDashboardForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.tableLayoutPanelMain); // Add TableLayoutPanel to form
-            this.Name = "AdminDashboardForm";
-            this.Text = "Admin Dashboard";
-            this.tableLayoutPanelMain.ResumeLayout(false); // End TableLayoutPanel
-            this.tabControlMain.ResumeLayout(false);
-            this.tabAddUser.ResumeLayout(false);
-            this.tabAddUser.PerformLayout();
-            this.tabViewUsers.ResumeLayout(false);
-            this.tabViewUsers.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridUsers)).EndInit();
-            this.tabBooks.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridBooks)).EndInit();
-            this.tabReviews.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridReviews)).EndInit();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(800, 450);
+            Controls.Add(tableLayoutPanelMain);
+            Text = "Admin Dashboard";
+            tableLayoutPanelMain.ResumeLayout(false);
+            tabControlMain.ResumeLayout(false);
+            tabAddUser.ResumeLayout(false);
+            tabAddUser.PerformLayout();
+            tabViewUsers.ResumeLayout(false);
+            tabViewUsers.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridUsers).EndInit();
+            tabBooks.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridBooks).EndInit();
+            tabReviews.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridReviews).EndInit();
+            tabBookAnalytics.ResumeLayout(false);
+            splitContainer1.Panel1.ResumeLayout(false);
+            splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
+            splitContainer1.ResumeLayout(false);
+            panelAnalyticsParamBook.ResumeLayout(false);
+            panelAnalyticsParamDateRange.ResumeLayout(false);
+            panelAnalyticsParamAge.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridBookAnalytics).EndInit();
+            tabUserActivity.ResumeLayout(false);
+            splitContainer2.Panel1.ResumeLayout(false);
+            splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer2).EndInit();
+            splitContainer2.ResumeLayout(false);
+            panelUserActivityParamCritic.ResumeLayout(false);
+            panelUserActivityParamRole.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridUserActivity).EndInit();
+            ResumeLayout(false);
         }
+
+        private System.Windows.Forms.Panel panelUserActivityParamCritic;
+        private System.Windows.Forms.ComboBox comboAnalyticsCriticSelect;
+        private System.Windows.Forms.Label lblSelectCritic;
+
+        private System.Windows.Forms.ComboBox comboAnalyticsBookSelect;
+
+        private System.Windows.Forms.Label lblSelectBook;
+
+        private System.Windows.Forms.Panel panelAnalyticsParamBook;
+
+        private System.Windows.Forms.Label lblAgeRestrictions;
+
+        private System.Windows.Forms.Label lblStartDate;
+        private System.Windows.Forms.Label lblEndDate;
+
+        private System.Windows.Forms.Button btnDeepAnalytics;
+
+        private System.Windows.Forms.ComboBox comboUserActivityRole;
+
+        private System.Windows.Forms.Panel panelUserActivityParamRole;
+
+        private System.Windows.Forms.Button btnRunUserActivityQuery;
+        private System.Windows.Forms.DataGridView dataGridUserActivity;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+
+        private System.Windows.Forms.ComboBox comboUserActivityQuery;
+
+        private System.Windows.Forms.Label lblUserActivityQuerySelect;
+
+        private System.Windows.Forms.SplitContainer splitContainer1;
+
+        private System.Windows.Forms.Panel panelAnalyticsParamAge;
+        private System.Windows.Forms.ComboBox comboAnalyticsAgeRestriction;
+
+        private System.Windows.Forms.DateTimePicker dtpAnalyticsEndDate;
+
+        private System.Windows.Forms.DateTimePicker dtpAnalyticsStartDate;
+
+        private System.Windows.Forms.Panel panelAnalyticsParamDateRange;
+
+        private System.Windows.Forms.DataGridView dataGridBookAnalytics;
+
+        private System.Windows.Forms.Label lblAnalyticsQuerySelect;
+        private System.Windows.Forms.ComboBox comboBookAnalyticsQuery;
+        private System.Windows.Forms.Button btnRunBookAnalyticsQuery;
+
+        private System.Windows.Forms.TabPage tabBookAnalytics;
+        private System.Windows.Forms.TabPage tabUserActivity;
+
         #endregion
     }
 }

@@ -34,23 +34,23 @@ partial class EditorDashboardForm
         menuStrip1 = new System.Windows.Forms.MenuStrip();
         splitContainerBooks = new System.Windows.Forms.SplitContainer();
         btnAssignToMe = new System.Windows.Forms.Button();
+        tlpAvailableBooks = new System.Windows.Forms.TableLayoutPanel();
+        lblAvailableBooks = new System.Windows.Forms.Label();
         dataGridViewAvailableBooks = new System.Windows.Forms.DataGridView();
         btnReleaseBook = new System.Windows.Forms.Button();
         btnChangeAgeRestriction = new System.Windows.Forms.Button();
         btnSetStatusEditing = new System.Windows.Forms.Button();
-        dataGridViewMyBooks = new System.Windows.Forms.DataGridView();
-        tlpAvailableBooks = new System.Windows.Forms.TableLayoutPanel();
         tlpMyBooks = new System.Windows.Forms.TableLayoutPanel();
+        dataGridViewMyBooks = new System.Windows.Forms.DataGridView();
         lblMyBooks = new System.Windows.Forms.Label();
-        lblAvailableBooks = new System.Windows.Forms.Label();
         ((System.ComponentModel.ISupportInitialize)splitContainerBooks).BeginInit();
         splitContainerBooks.Panel1.SuspendLayout();
         splitContainerBooks.Panel2.SuspendLayout();
         splitContainerBooks.SuspendLayout();
-        ((System.ComponentModel.ISupportInitialize)dataGridViewAvailableBooks).BeginInit();
-        ((System.ComponentModel.ISupportInitialize)dataGridViewMyBooks).BeginInit();
         tlpAvailableBooks.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)dataGridViewAvailableBooks).BeginInit();
         tlpMyBooks.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)dataGridViewMyBooks).BeginInit();
         SuspendLayout();
         // 
         // menuStrip1
@@ -92,6 +92,32 @@ partial class EditorDashboardForm
         btnAssignToMe.Text = "Assign To me";
         btnAssignToMe.UseVisualStyleBackColor = true;
         // 
+        // tlpAvailableBooks
+        // 
+        tlpAvailableBooks.AutoSize = true;
+        tlpAvailableBooks.ColumnCount = 1;
+        tlpAvailableBooks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+        tlpAvailableBooks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+        tlpAvailableBooks.Controls.Add(lblAvailableBooks, 0, 0);
+        tlpAvailableBooks.Controls.Add(dataGridViewAvailableBooks, 0, 1);
+        tlpAvailableBooks.Dock = System.Windows.Forms.DockStyle.Fill;
+        tlpAvailableBooks.Location = new System.Drawing.Point(0, 0);
+        tlpAvailableBooks.Name = "tlpAvailableBooks";
+        tlpAvailableBooks.RowCount = 2;
+        tlpAvailableBooks.RowStyles.Add(new System.Windows.Forms.RowStyle());
+        tlpAvailableBooks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+        tlpAvailableBooks.Size = new System.Drawing.Size(346, 426);
+        tlpAvailableBooks.TabIndex = 6;
+        // 
+        // lblAvailableBooks
+        // 
+        lblAvailableBooks.Dock = System.Windows.Forms.DockStyle.Fill;
+        lblAvailableBooks.Location = new System.Drawing.Point(3, 0);
+        lblAvailableBooks.Name = "lblAvailableBooks";
+        lblAvailableBooks.Size = new System.Drawing.Size(340, 17);
+        lblAvailableBooks.TabIndex = 7;
+        lblAvailableBooks.Text = "Available Books for Editing";
+        // 
         // dataGridViewAvailableBooks
         // 
         dataGridViewAvailableBooks.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -130,31 +156,6 @@ partial class EditorDashboardForm
         btnSetStatusEditing.Text = "Set Editing";
         btnSetStatusEditing.UseVisualStyleBackColor = true;
         // 
-        // dataGridViewMyBooks
-        // 
-        dataGridViewMyBooks.Dock = System.Windows.Forms.DockStyle.Fill;
-        dataGridViewMyBooks.Location = new System.Drawing.Point(3, 22);
-        dataGridViewMyBooks.Name = "dataGridViewMyBooks";
-        dataGridViewMyBooks.Size = new System.Drawing.Size(444, 401);
-        dataGridViewMyBooks.TabIndex = 1;
-        // 
-        // tlpAvailableBooks
-        // 
-        tlpAvailableBooks.AutoSize = true;
-        tlpAvailableBooks.ColumnCount = 1;
-        tlpAvailableBooks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-        tlpAvailableBooks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-        tlpAvailableBooks.Controls.Add(lblAvailableBooks, 0, 0);
-        tlpAvailableBooks.Controls.Add(dataGridViewAvailableBooks, 0, 1);
-        tlpAvailableBooks.Dock = System.Windows.Forms.DockStyle.Fill;
-        tlpAvailableBooks.Location = new System.Drawing.Point(0, 0);
-        tlpAvailableBooks.Name = "tlpAvailableBooks";
-        tlpAvailableBooks.RowCount = 2;
-        tlpAvailableBooks.RowStyles.Add(new System.Windows.Forms.RowStyle());
-        tlpAvailableBooks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-        tlpAvailableBooks.Size = new System.Drawing.Size(346, 426);
-        tlpAvailableBooks.TabIndex = 6;
-        // 
         // tlpMyBooks
         // 
         tlpMyBooks.ColumnCount = 1;
@@ -171,6 +172,14 @@ partial class EditorDashboardForm
         tlpMyBooks.Size = new System.Drawing.Size(450, 426);
         tlpMyBooks.TabIndex = 5;
         // 
+        // dataGridViewMyBooks
+        // 
+        dataGridViewMyBooks.Dock = System.Windows.Forms.DockStyle.Fill;
+        dataGridViewMyBooks.Location = new System.Drawing.Point(3, 22);
+        dataGridViewMyBooks.Name = "dataGridViewMyBooks";
+        dataGridViewMyBooks.Size = new System.Drawing.Size(444, 401);
+        dataGridViewMyBooks.TabIndex = 1;
+        // 
         // lblMyBooks
         // 
         lblMyBooks.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -179,15 +188,6 @@ partial class EditorDashboardForm
         lblMyBooks.Size = new System.Drawing.Size(444, 19);
         lblMyBooks.TabIndex = 6;
         lblMyBooks.Text = "My Assigned Books";
-        // 
-        // lblAvailableBooks
-        // 
-        lblAvailableBooks.Dock = System.Windows.Forms.DockStyle.Fill;
-        lblAvailableBooks.Location = new System.Drawing.Point(3, 0);
-        lblAvailableBooks.Name = "lblAvailableBooks";
-        lblAvailableBooks.Size = new System.Drawing.Size(340, 17);
-        lblAvailableBooks.TabIndex = 7;
-        lblAvailableBooks.Text = "Available Books for Editing";
         // 
         // EditorDashboardForm
         // 
@@ -198,16 +198,16 @@ partial class EditorDashboardForm
         Controls.Add(menuStrip1);
         MainMenuStrip = menuStrip1;
         StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-        Text = "EditorDashboardForm";
+        Text = "Editor Dashboard";
         splitContainerBooks.Panel1.ResumeLayout(false);
         splitContainerBooks.Panel1.PerformLayout();
         splitContainerBooks.Panel2.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)splitContainerBooks).EndInit();
         splitContainerBooks.ResumeLayout(false);
-        ((System.ComponentModel.ISupportInitialize)dataGridViewAvailableBooks).EndInit();
-        ((System.ComponentModel.ISupportInitialize)dataGridViewMyBooks).EndInit();
         tlpAvailableBooks.ResumeLayout(false);
+        ((System.ComponentModel.ISupportInitialize)dataGridViewAvailableBooks).EndInit();
         tlpMyBooks.ResumeLayout(false);
+        ((System.ComponentModel.ISupportInitialize)dataGridViewMyBooks).EndInit();
         ResumeLayout(false);
         PerformLayout();
     }

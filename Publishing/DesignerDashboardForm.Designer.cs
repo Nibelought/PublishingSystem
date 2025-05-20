@@ -36,10 +36,10 @@ partial class DesignerDashboardForm
         menuStrip1 = new System.Windows.Forms.MenuStrip();
         btnAssignToMe = new System.Windows.Forms.Button();
         panelCoverUpload = new System.Windows.Forms.Panel();
+        pictureBoxCoverPreview = new System.Windows.Forms.PictureBox();
         btnSaveCover = new System.Windows.Forms.Button();
         btnClearCoverSelection = new System.Windows.Forms.Button();
         lblCurrentCoverPath = new System.Windows.Forms.Label();
-        pictureBoxCoverPreview = new System.Windows.Forms.PictureBox();
         btnBrowseCover = new System.Windows.Forms.Button();
         lblDragDropInfo = new System.Windows.Forms.Label();
         btnReleaseBookFromDesigner = new System.Windows.Forms.Button();
@@ -110,6 +110,14 @@ partial class DesignerDashboardForm
         panelCoverUpload.Size = new System.Drawing.Size(660, 211);
         panelCoverUpload.TabIndex = 5;
         // 
+        // pictureBoxCoverPreview
+        // 
+        pictureBoxCoverPreview.Location = new System.Drawing.Point(243, 3);
+        pictureBoxCoverPreview.Name = "pictureBoxCoverPreview";
+        pictureBoxCoverPreview.Size = new System.Drawing.Size(414, 205);
+        pictureBoxCoverPreview.TabIndex = 2;
+        pictureBoxCoverPreview.TabStop = false;
+        // 
         // btnSaveCover
         // 
         btnSaveCover.Location = new System.Drawing.Point(110, 177);
@@ -135,14 +143,6 @@ partial class DesignerDashboardForm
         lblCurrentCoverPath.Size = new System.Drawing.Size(171, 16);
         lblCurrentCoverPath.TabIndex = 3;
         lblCurrentCoverPath.Text = "Current path";
-        // 
-        // pictureBoxCoverPreview
-        // 
-        pictureBoxCoverPreview.Location = new System.Drawing.Point(243, 3);
-        pictureBoxCoverPreview.Name = "pictureBoxCoverPreview";
-        pictureBoxCoverPreview.Size = new System.Drawing.Size(414, 205);
-        pictureBoxCoverPreview.TabIndex = 2;
-        pictureBoxCoverPreview.TabStop = false;
         // 
         // btnBrowseCover
         // 
@@ -265,7 +265,7 @@ partial class DesignerDashboardForm
         Controls.Add(menuStrip1);
         MainMenuStrip = menuStrip1;
         StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-        Text = "DesignerDashboardForm";
+        Text = "Designer Dashboard";
         ((System.ComponentModel.ISupportInitialize)dataGridViewAvailableBooks).EndInit();
         ((System.ComponentModel.ISupportInitialize)dataGridViewMyAssignedBooks).EndInit();
         panelCoverUpload.ResumeLayout(false);

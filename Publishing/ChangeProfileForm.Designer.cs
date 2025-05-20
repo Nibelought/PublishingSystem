@@ -99,7 +99,7 @@ partial class ChangeProfileForm
         Controls.Add(btnSave);
         Controls.Add(btnCancel);
         StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-        Text = "ChangeProfileForm";
+        Text = "Change Profile";
         ResumeLayout(false);
         PerformLayout();
     }

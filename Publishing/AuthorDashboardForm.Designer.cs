@@ -174,7 +174,7 @@ partial class AuthorDashboardForm
         Controls.Add(menuStrip1);
         Controls.Add(dataGridViewBooks);
         MainMenuStrip = menuStrip1;
-        Text = "AuthorDashboardForm";
+        Text = "Author Dashboard";
         ((System.ComponentModel.ISupportInitialize)dataGridViewBooks).EndInit();
         panelAddBook.ResumeLayout(false);
         panelAddBook.PerformLayout();

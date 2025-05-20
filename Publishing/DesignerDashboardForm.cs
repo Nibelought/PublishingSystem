@@ -56,6 +56,7 @@ namespace PublishingSystem.UI
             if (this.btnAssignToMe != null) this.btnAssignToMe.Click += BtnAssignToMe_Click;
             if (this.btnBrowseCover != null) this.btnBrowseCover.Click += BtnBrowseCover_Click;
             if (this.btnSaveCover != null) this.btnSaveCover.Click += BtnSaveCover_Click;
+            if (this.btnClearCoverSelection != null) this.btnClearCoverSelection.Click += BtnClearCoverSelection_Click;
 
             if (this.dataGridViewAvailableBooks != null) this.dataGridViewAvailableBooks.SelectionChanged += (s, e) => UpdateButtonStatesAndPanel();
             if (this.dataGridViewMyAssignedBooks != null) this.dataGridViewMyAssignedBooks.SelectionChanged += DataGridViewMyAssignedBooks_SelectionChanged;
@@ -405,22 +406,29 @@ namespace PublishingSystem.UI
                 pictureBoxCoverPreview.Image.Dispose();
                 pictureBoxCoverPreview.Image = null;
             }
-            _newCoverFilePath = null;
+            _newCoverFilePath = null; // Crucial to reset the path to the NEW file
             
             if(lblCurrentCoverPath != null)
             {
+                // Attempt to reload the book's existing cover if one is selected and has a cover
                 if (_selectedMyBookForCover != null && !string.IsNullOrEmpty(_selectedMyBookForCover.CoverImagePath))
                 {
-                    lblCurrentCoverPath.Text = $"Current: {_selectedMyBookForCover.CoverImagePath}";
-                    // Попробуем загрузить существующую обложку при сбросе, если она есть
-                    LoadCoverPreview(_selectedMyBookForCover.CoverImagePath, false);
+                    lblCurrentCoverPath.Text = $"Current: {Path.GetFileName(_selectedMyBookForCover.CoverImagePath)}"; // Show only filename for brevity
+                    LoadCoverPreview(_selectedMyBookForCover.CoverImagePath, false); // false as it's not a new local file
                 }
                 else
                 {
                     lblCurrentCoverPath.Text = "Current: Not set";
+                    // If no book selected or no cover, ensure preview is clear (already done by LoadCoverPreview if path is null)
+                    LoadCoverPreview(null, false);
                 }
             }
-            UpdateButtonSaveCoverState();
+            UpdateButtonSaveCoverState(); // Update the save button state
+        }
+        
+        private void BtnClearCoverSelection_Click(object sender, EventArgs e)
+        {
+            ResetCoverSelectionState();
         }
 
         // Новый метод для управления состоянием кнопки btnSaveCover

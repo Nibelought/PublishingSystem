@@ -118,7 +118,7 @@ partial class ChangePasswordForm
         Controls.Add(label2);
         Controls.Add(label1);
         StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-        Text = "ChangePasswordForm";
+        Text = "Change Password";
         ResumeLayout(false);
         PerformLayout();
     }
