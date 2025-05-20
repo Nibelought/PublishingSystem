@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Publishing; // For LoginForm
+using PublishingSystem.UI.Helpers; // For dgv sort
 
 namespace PublishingSystem.UI
 {
@@ -41,6 +42,17 @@ namespace PublishingSystem.UI
             InitializeUserMenu();
             SetupDataGridViews();
             RefreshAllBookLists(); // Initial load
+            
+            if (this.dataGridViewAvailableBooks != null)
+            {
+                this.dataGridViewAvailableBooks.ColumnHeaderMouseClick += (sender, e) =>
+                    DataGridViewSortHelper.HandleColumnHeaderMouseClick(sender as DataGridView, e);
+            }
+            if (this.dataGridViewMyBooks != null)
+            {
+                this.dataGridViewMyBooks.ColumnHeaderMouseClick += (sender, e) =>
+                    DataGridViewSortHelper.HandleColumnHeaderMouseClick(sender as DataGridView, e);
+            }
 
             // Wire up events (ensure buttons are not null, meaning they exist in Designer.cs)
             if (this.btnAssignToMe != null) this.btnAssignToMe.Click += BtnAssignToMe_Click;

@@ -7,6 +7,7 @@ using System.IO; // Required for Path, Directory, File
 using System.Linq;
 using System.Windows.Forms;
 using Publishing; // For LoginForm
+using PublishingSystem.UI.Helpers; // For dgv sort
 
 namespace PublishingSystem.UI
 {
@@ -51,6 +52,17 @@ namespace PublishingSystem.UI
             SetupDataGridViews();
             SetupCoverUploadPanel(); // Includes Drag & Drop
             RefreshAllBookListsDesigner();
+            
+            if (this.dataGridViewAvailableBooks != null)
+            {
+                this.dataGridViewAvailableBooks.ColumnHeaderMouseClick += (sender, e) =>
+                    DataGridViewSortHelper.HandleColumnHeaderMouseClick(sender as DataGridView, e);
+            }
+            if (this.dataGridViewMyAssignedBooks != null)
+            {
+                this.dataGridViewMyAssignedBooks.ColumnHeaderMouseClick += (sender, e) =>
+                    DataGridViewSortHelper.HandleColumnHeaderMouseClick(sender as DataGridView, e);
+            }
 
             // Wire events (ensure controls exist)
             if (this.btnAssignToMe != null) this.btnAssignToMe.Click += BtnAssignToMe_Click;

@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 using Publishing; // Для LoginForm
-// using Microsoft.VisualBasic; // Больше не нужен для InputBox, если заменяем панелью
+using PublishingSystem.UI.Helpers; // For dgv sort
 
 namespace PublishingSystem.UI
 {
@@ -13,12 +13,7 @@ namespace PublishingSystem.UI
         private readonly User _currentUser;
         private readonly BookService _bookService;
         private readonly UserService _userService;
-
-        // Предполагаем, что эти контролы добавлены в Designer.cs:
-        // dataGridViewBooks, menuStrip1 (или menuStripUser если программно)
-        // panelAddBook, txtBookName, dtpEstimatedEndDate, comboAgeRestrictionAdd
-        // btnSaveNewBook, btnCancelAddBook, btnShowAddBookPanel, btnEditBook
-
+        
         private ToolStripMenuItem menuItemUserActions;
         private ToolStripMenuItem menuItemChangePassword;
         private ToolStripMenuItem menuItemChangeProfile;
@@ -34,7 +29,13 @@ namespace PublishingSystem.UI
             InitializeUserMenu();
             SetupDataGridView();
             LoadBooks();
-            InitializeAddBookPanel(); // Настройка панели добавления
+            InitializeAddBookPanel();
+            
+            if (this.dataGridViewBooks != null)
+            {
+                this.dataGridViewBooks.ColumnHeaderMouseClick += (sender, e) =>
+                    DataGridViewSortHelper.HandleColumnHeaderMouseClick(sender as DataGridView, e);
+            }
 
             // Привязка событий
             if (this.btnShowAddBookPanel != null) this.btnShowAddBookPanel.Click += BtnShowAddBookPanel_Click;
@@ -43,18 +44,15 @@ namespace PublishingSystem.UI
             if (this.btnEditBook != null) this.btnEditBook.Click += BtnEditBook_Click;
             if (this.dataGridViewBooks != null) dataGridViewBooks.SelectionChanged += DataGridViewBooks_SelectionChanged;
 
-            if (this.panelAddBook != null) this.panelAddBook.Visible = false; // Скрыть панель по умолчанию
-            if (this.btnEditBook != null) this.btnEditBook.Enabled = false; // Кнопка редактирования выключена
+            if (this.panelAddBook != null) this.panelAddBook.Visible = false;
+            if (this.btnEditBook != null) this.btnEditBook.Enabled = false;
         }
 
         private void InitializeUserMenu()
         {
-            // ... (КОД ИЗ ПРЕДЫДУЩЕГО ОТВЕТА ДЛЯ ИНИЦИАЛИЗАЦИИ МЕНЮ) ...
-            // Убедитесь, что используется this.menuStrip1 (если из дизайнера)
-            // или создается новый MenuStrip (если программно)
-             if (this.menuStrip1 == null) // Запасной вариант, если menuStrip1 не из дизайнера
+             if (this.menuStrip1 == null)
             {
-                this.menuStrip1 = new MenuStrip(); // Предположим, что menuStrip1 объявлен в Designer.cs
+                this.menuStrip1 = new MenuStrip();
                 this.menuStrip1.Name = "menuStripAuthorProgrammatic";
                 this.menuStrip1.Dock = DockStyle.Top;
                 this.Controls.Add(this.menuStrip1);
@@ -123,7 +121,6 @@ namespace PublishingSystem.UI
         private void SetupDataGridView()
         {
             if (this.dataGridViewBooks == null) return;
-            // ... (КОД НАСТРОЙКИ СТОЛБЦОВ DataGridView ИЗ ПРЕДЫДУЩЕГО ОТВЕТА) ...
             dataGridViewBooks.AutoGenerateColumns = false;
             dataGridViewBooks.Columns.Clear();
             dataGridViewBooks.Columns.Add(new DataGridViewTextBoxColumn { Name = "Id", DataPropertyName = "Id", HeaderText = "ID", Visible = false });
@@ -165,7 +162,6 @@ namespace PublishingSystem.UI
 
             if (this.comboAgeRestrictionAdd != null)
             {
-                // Заполняем ComboBox значениями из Enum AgeRestriction
                 comboAgeRestrictionAdd.DataSource = Enum.GetValues(typeof(AgeRestriction))
                                                         .Cast<AgeRestriction>()
                                                         .Select(ar => new { Name = ar.ToString().Replace("_", "").Replace("plus", "+"), Value = ar })
@@ -231,7 +227,7 @@ namespace PublishingSystem.UI
                     CoverImagePath = null 
                 };
 
-                _bookService.AddBook(newBook); // BookService должен корректно обработать null для FK
+                _bookService.AddBook(newBook);
                 MessageBox.Show("Book added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LoadBooks();
                 panelAddBook.Visible = false;
@@ -253,8 +249,6 @@ namespace PublishingSystem.UI
             if (dataGridViewBooks.SelectedRows.Count == 1)
             {
                 var selectedBook = (Book)dataGridViewBooks.SelectedRows[0].DataBoundItem;
-                // Разрешить редактирование только если книга еще в работе у автора
-                // и не назначена редактору (подразумевая, что после этого автор не может менять даты)
                 btnEditBook.Enabled = (selectedBook.State == BookState.in_progress && !selectedBook.IdEditor.HasValue);
             }
             else
@@ -267,14 +261,11 @@ namespace PublishingSystem.UI
         {
             if (this.dataGridViewBooks == null || dataGridViewBooks.SelectedRows.Count != 1) return;
             var selectedBook = (Book)dataGridViewBooks.SelectedRows[0].DataBoundItem;
-
-            // Используем тот же DateTimePicker, что и для добавления, но предзаполняем его.
-            // Для простоты можно снова использовать Interaction.InputBox или создать отдельную форму редактирования.
-            // Здесь для примера изменим только дату через InputBox.
+            
             string currentEstEndDateStr = selectedBook.EstimatedEndDate.ToString("yyyy-MM-dd");
             string newEstEndDateStr = Microsoft.VisualBasic.Interaction.InputBox("Edit Estimated End Date (YYYY-MM-DD):", "Edit Book Estimate", currentEstEndDateStr);
             
-            if (string.IsNullOrWhiteSpace(newEstEndDateStr) || newEstEndDateStr == currentEstEndDateStr) return; // Нет изменений или отмена
+            if (string.IsNullOrWhiteSpace(newEstEndDateStr) || newEstEndDateStr == currentEstEndDateStr) return;
 
             if (!DateTime.TryParse(newEstEndDateStr, out DateTime newEstEndDate) || newEstEndDate.Date < selectedBook.StartDate.Date)
             {
