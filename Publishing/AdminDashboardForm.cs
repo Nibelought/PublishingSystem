@@ -11,6 +11,7 @@ using Microsoft.VisualBasic; // For Interaction.InputBox
 using System.Text.RegularExpressions; // For email validation
 using Dapper; // For executing SQL queries directly
 using PublishingSystem.DAL; // For DbContext
+using PublishingSystem.UI.Helpers; // For dgv sort
 
 namespace PublishingSystem.UI
 {
@@ -75,6 +76,35 @@ namespace PublishingSystem.UI
             InitializeBooksTab();
             InitializeReviewsTab();
             InitializeAnalyticsTabs(); // This will now populate new ComboBoxes too
+            
+            // --- ADD SORTING EVENT HANDLERS ---
+            if (this.dataGridUsers != null)
+            {
+                this.dataGridUsers.ColumnHeaderMouseClick += (sender, e) =>
+                    DataGridViewSortHelper.HandleColumnHeaderMouseClick(sender as DataGridView, e);
+            }
+            if (this.dataGridBooks != null)
+            {
+                this.dataGridBooks.ColumnHeaderMouseClick += (sender, e) =>
+                    DataGridViewSortHelper.HandleColumnHeaderMouseClick(sender as DataGridView, e);
+            }
+            if (this.dataGridReviews != null)
+            {
+                this.dataGridReviews.ColumnHeaderMouseClick += (sender, e) =>
+                    DataGridViewSortHelper.HandleColumnHeaderMouseClick(sender as DataGridView, e);
+            }
+            // For analytics grids, it might be simpler to re-run the query with an ORDER BY clause
+            // rather than client-side sorting, but you could apply this pattern too.
+            if (this.dataGridBookAnalytics != null)
+            {
+                this.dataGridBookAnalytics.ColumnHeaderMouseClick += (sender, e) =>
+                    DataGridViewSortHelper.HandleColumnHeaderMouseClick(sender as DataGridView, e);
+            }
+            if (this.dataGridUserActivity != null)
+            {
+                this.dataGridUserActivity.ColumnHeaderMouseClick += (sender, e) =>
+                    DataGridViewSortHelper.HandleColumnHeaderMouseClick(sender as DataGridView, e);
+            }
         }
 
         #region Menu Initialization and Handlers
