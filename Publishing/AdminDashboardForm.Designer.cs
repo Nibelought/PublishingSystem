@@ -137,6 +137,11 @@
             panelUserActivityParamRole = new System.Windows.Forms.Panel();
             comboUserActivityRole = new System.Windows.Forms.ComboBox();
             dataGridUserActivity = new System.Windows.Forms.DataGridView();
+            panelUserActivityParamDateRange = new System.Windows.Forms.Panel();
+            label1 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
+            dtpUserActivityEndDate = new System.Windows.Forms.DateTimePicker();
+            dtpUserActivityStartDate = new System.Windows.Forms.DateTimePicker();
             tableLayoutPanelMain.SuspendLayout();
             tabControlMain.SuspendLayout();
             tabAddUser.SuspendLayout();
@@ -163,6 +168,7 @@
             panelUserActivityParamCritic.SuspendLayout();
             panelUserActivityParamRole.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridUserActivity).BeginInit();
+            panelUserActivityParamDateRange.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanelMain
@@ -353,7 +359,7 @@
             tabViewUsers.Location = new System.Drawing.Point(4, 24);
             tabViewUsers.Name = "tabViewUsers";
             tabViewUsers.Padding = new System.Windows.Forms.Padding(10);
-            tabViewUsers.Size = new System.Drawing.Size(786, 378);
+            tabViewUsers.Size = new System.Drawing.Size(786, 382);
             tabViewUsers.TabIndex = 1;
             tabViewUsers.Text = "View Users";
             tabViewUsers.UseVisualStyleBackColor = true;
@@ -431,13 +437,13 @@
             dataGridUsers.Name = "dataGridUsers";
             dataGridUsers.ReadOnly = true;
             dataGridUsers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            dataGridUsers.Size = new System.Drawing.Size(760, 274);
+            dataGridUsers.Size = new System.Drawing.Size(760, 278);
             dataGridUsers.TabIndex = 7;
             // 
             // btnEditUser
             // 
             btnEditUser.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left));
-            btnEditUser.Location = new System.Drawing.Point(13, 335);
+            btnEditUser.Location = new System.Drawing.Point(13, 339);
             btnEditUser.Name = "btnEditUser";
             btnEditUser.Size = new System.Drawing.Size(100, 30);
             btnEditUser.TabIndex = 8;
@@ -448,7 +454,7 @@
             // btnDeleteUser
             // 
             btnDeleteUser.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left));
-            btnDeleteUser.Location = new System.Drawing.Point(123, 335);
+            btnDeleteUser.Location = new System.Drawing.Point(123, 339);
             btnDeleteUser.Name = "btnDeleteUser";
             btnDeleteUser.Size = new System.Drawing.Size(110, 30);
             btnDeleteUser.TabIndex = 9;
@@ -466,7 +472,7 @@
             tabBooks.Location = new System.Drawing.Point(4, 24);
             tabBooks.Name = "tabBooks";
             tabBooks.Padding = new System.Windows.Forms.Padding(10);
-            tabBooks.Size = new System.Drawing.Size(786, 378);
+            tabBooks.Size = new System.Drawing.Size(786, 382);
             tabBooks.TabIndex = 2;
             tabBooks.Text = "Books";
             tabBooks.UseVisualStyleBackColor = true;
@@ -475,7 +481,7 @@
             // 
             btnDeepAnalytics.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left));
             btnDeepAnalytics.Enabled = false;
-            btnDeepAnalytics.Location = new System.Drawing.Point(256, 331);
+            btnDeepAnalytics.Location = new System.Drawing.Point(256, 335);
             btnDeepAnalytics.Name = "btnDeepAnalytics";
             btnDeepAnalytics.Size = new System.Drawing.Size(75, 39);
             btnDeepAnalytics.TabIndex = 4;
@@ -485,7 +491,7 @@
             // btnBookDelete
             // 
             btnBookDelete.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left));
-            btnBookDelete.Location = new System.Drawing.Point(175, 335);
+            btnBookDelete.Location = new System.Drawing.Point(175, 339);
             btnBookDelete.Name = "btnBookDelete";
             btnBookDelete.Size = new System.Drawing.Size(75, 30);
             btnBookDelete.TabIndex = 3;
@@ -495,7 +501,7 @@
             // btnBookEdit
             // 
             btnBookEdit.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left));
-            btnBookEdit.Location = new System.Drawing.Point(94, 335);
+            btnBookEdit.Location = new System.Drawing.Point(94, 339);
             btnBookEdit.Name = "btnBookEdit";
             btnBookEdit.Size = new System.Drawing.Size(75, 30);
             btnBookEdit.TabIndex = 2;
@@ -505,7 +511,7 @@
             // btnBooksRefresh
             // 
             btnBooksRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left));
-            btnBooksRefresh.Location = new System.Drawing.Point(13, 335);
+            btnBooksRefresh.Location = new System.Drawing.Point(13, 339);
             btnBooksRefresh.Name = "btnBooksRefresh";
             btnBooksRefresh.Size = new System.Drawing.Size(75, 30);
             btnBooksRefresh.TabIndex = 1;
@@ -522,7 +528,7 @@
             dataGridBooks.Location = new System.Drawing.Point(13, 13);
             dataGridBooks.Name = "dataGridBooks";
             dataGridBooks.ReadOnly = true;
-            dataGridBooks.Size = new System.Drawing.Size(760, 313);
+            dataGridBooks.Size = new System.Drawing.Size(760, 317);
             dataGridBooks.TabIndex = 0;
             // 
             // tabReviews
@@ -533,7 +539,7 @@
             tabReviews.Location = new System.Drawing.Point(4, 24);
             tabReviews.Name = "tabReviews";
             tabReviews.Padding = new System.Windows.Forms.Padding(10);
-            tabReviews.Size = new System.Drawing.Size(786, 378);
+            tabReviews.Size = new System.Drawing.Size(786, 382);
             tabReviews.TabIndex = 3;
             tabReviews.Text = "Reviews";
             tabReviews.UseVisualStyleBackColor = true;
@@ -541,7 +547,7 @@
             // btnReviewDelete
             // 
             btnReviewDelete.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left));
-            btnReviewDelete.Location = new System.Drawing.Point(94, 335);
+            btnReviewDelete.Location = new System.Drawing.Point(94, 339);
             btnReviewDelete.Name = "btnReviewDelete";
             btnReviewDelete.Size = new System.Drawing.Size(75, 30);
             btnReviewDelete.TabIndex = 2;
@@ -551,7 +557,7 @@
             // btnReviewsRefresh
             // 
             btnReviewsRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left));
-            btnReviewsRefresh.Location = new System.Drawing.Point(13, 335);
+            btnReviewsRefresh.Location = new System.Drawing.Point(13, 339);
             btnReviewsRefresh.Name = "btnReviewsRefresh";
             btnReviewsRefresh.Size = new System.Drawing.Size(75, 30);
             btnReviewsRefresh.TabIndex = 1;
@@ -568,7 +574,7 @@
             dataGridReviews.Location = new System.Drawing.Point(13, 13);
             dataGridReviews.Name = "dataGridReviews";
             dataGridReviews.ReadOnly = true;
-            dataGridReviews.Size = new System.Drawing.Size(760, 313);
+            dataGridReviews.Size = new System.Drawing.Size(760, 317);
             dataGridReviews.TabIndex = 0;
             // 
             // tabBookAnalytics
@@ -577,7 +583,7 @@
             tabBookAnalytics.Location = new System.Drawing.Point(4, 24);
             tabBookAnalytics.Name = "tabBookAnalytics";
             tabBookAnalytics.Padding = new System.Windows.Forms.Padding(3);
-            tabBookAnalytics.Size = new System.Drawing.Size(786, 378);
+            tabBookAnalytics.Size = new System.Drawing.Size(786, 382);
             tabBookAnalytics.TabIndex = 4;
             tabBookAnalytics.Text = "Book Analytics";
             tabBookAnalytics.UseVisualStyleBackColor = true;
@@ -604,13 +610,13 @@
             splitContainer1.Panel2.Controls.Add(dataGridBookAnalytics);
             splitContainer1.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             splitContainer1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            splitContainer1.Size = new System.Drawing.Size(780, 372);
+            splitContainer1.Size = new System.Drawing.Size(780, 376);
             splitContainer1.SplitterDistance = 27;
             splitContainer1.TabIndex = 6;
             // 
             // lblAnalyticsQuerySelect
             // 
-            lblAnalyticsQuerySelect.Location = new System.Drawing.Point(3, 1);
+            lblAnalyticsQuerySelect.Location = new System.Drawing.Point(3, 6);
             lblAnalyticsQuerySelect.Name = "lblAnalyticsQuerySelect";
             lblAnalyticsQuerySelect.Size = new System.Drawing.Size(79, 18);
             lblAnalyticsQuerySelect.TabIndex = 0;
@@ -620,16 +626,16 @@
             // 
             comboBookAnalyticsQuery.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             comboBookAnalyticsQuery.FormattingEnabled = true;
-            comboBookAnalyticsQuery.Location = new System.Drawing.Point(88, 1);
+            comboBookAnalyticsQuery.Location = new System.Drawing.Point(88, 3);
             comboBookAnalyticsQuery.Name = "comboBookAnalyticsQuery";
             comboBookAnalyticsQuery.Size = new System.Drawing.Size(224, 23);
             comboBookAnalyticsQuery.TabIndex = 1;
             // 
             // btnRunBookAnalyticsQuery
             // 
-            btnRunBookAnalyticsQuery.Location = new System.Drawing.Point(318, 0);
+            btnRunBookAnalyticsQuery.Location = new System.Drawing.Point(318, 3);
             btnRunBookAnalyticsQuery.Name = "btnRunBookAnalyticsQuery";
-            btnRunBookAnalyticsQuery.Size = new System.Drawing.Size(79, 24);
+            btnRunBookAnalyticsQuery.Size = new System.Drawing.Size(94, 23);
             btnRunBookAnalyticsQuery.TabIndex = 2;
             btnRunBookAnalyticsQuery.Text = "Run Report";
             btnRunBookAnalyticsQuery.UseVisualStyleBackColor = true;
@@ -638,7 +644,7 @@
             // 
             panelAnalyticsParamBook.Controls.Add(comboAnalyticsBookSelect);
             panelAnalyticsParamBook.Controls.Add(lblSelectBook);
-            panelAnalyticsParamBook.Location = new System.Drawing.Point(528, 3);
+            panelAnalyticsParamBook.Location = new System.Drawing.Point(528, 40);
             panelAnalyticsParamBook.Name = "panelAnalyticsParamBook";
             panelAnalyticsParamBook.Size = new System.Drawing.Size(249, 39);
             panelAnalyticsParamBook.TabIndex = 6;
@@ -669,7 +675,7 @@
             panelAnalyticsParamDateRange.Controls.Add(lblStartDate);
             panelAnalyticsParamDateRange.Controls.Add(dtpAnalyticsEndDate);
             panelAnalyticsParamDateRange.Controls.Add(dtpAnalyticsStartDate);
-            panelAnalyticsParamDateRange.Location = new System.Drawing.Point(571, 48);
+            panelAnalyticsParamDateRange.Location = new System.Drawing.Point(571, 85);
             panelAnalyticsParamDateRange.Name = "panelAnalyticsParamDateRange";
             panelAnalyticsParamDateRange.Size = new System.Drawing.Size(206, 60);
             panelAnalyticsParamDateRange.TabIndex = 4;
@@ -709,7 +715,7 @@
             // 
             panelAnalyticsParamAge.Controls.Add(lblAgeRestrictions);
             panelAnalyticsParamAge.Controls.Add(comboAnalyticsAgeRestriction);
-            panelAnalyticsParamAge.Location = new System.Drawing.Point(594, 114);
+            panelAnalyticsParamAge.Location = new System.Drawing.Point(594, 151);
             panelAnalyticsParamAge.Name = "panelAnalyticsParamAge";
             panelAnalyticsParamAge.Size = new System.Drawing.Size(183, 33);
             panelAnalyticsParamAge.TabIndex = 5;
@@ -739,7 +745,7 @@
             dataGridBookAnalytics.Location = new System.Drawing.Point(0, 0);
             dataGridBookAnalytics.Name = "dataGridBookAnalytics";
             dataGridBookAnalytics.ReadOnly = true;
-            dataGridBookAnalytics.Size = new System.Drawing.Size(780, 341);
+            dataGridBookAnalytics.Size = new System.Drawing.Size(780, 345);
             dataGridBookAnalytics.TabIndex = 3;
             // 
             // tabUserActivity
@@ -748,7 +754,7 @@
             tabUserActivity.Location = new System.Drawing.Point(4, 24);
             tabUserActivity.Name = "tabUserActivity";
             tabUserActivity.Padding = new System.Windows.Forms.Padding(3);
-            tabUserActivity.Size = new System.Drawing.Size(786, 378);
+            tabUserActivity.Size = new System.Drawing.Size(786, 382);
             tabUserActivity.TabIndex = 5;
             tabUserActivity.Text = "User Activity & Assignments";
             tabUserActivity.UseVisualStyleBackColor = true;
@@ -768,10 +774,11 @@
             // 
             // splitContainer2.Panel2
             // 
+            splitContainer2.Panel2.Controls.Add(panelUserActivityParamDateRange);
             splitContainer2.Panel2.Controls.Add(panelUserActivityParamCritic);
             splitContainer2.Panel2.Controls.Add(panelUserActivityParamRole);
             splitContainer2.Panel2.Controls.Add(dataGridUserActivity);
-            splitContainer2.Size = new System.Drawing.Size(780, 372);
+            splitContainer2.Size = new System.Drawing.Size(780, 376);
             splitContainer2.SplitterDistance = 27;
             splitContainer2.TabIndex = 4;
             // 
@@ -789,12 +796,12 @@
             comboUserActivityQuery.FormattingEnabled = true;
             comboUserActivityQuery.Location = new System.Drawing.Point(88, 3);
             comboUserActivityQuery.Name = "comboUserActivityQuery";
-            comboUserActivityQuery.Size = new System.Drawing.Size(102, 23);
+            comboUserActivityQuery.Size = new System.Drawing.Size(224, 23);
             comboUserActivityQuery.TabIndex = 1;
             // 
             // btnRunUserActivityQuery
             // 
-            btnRunUserActivityQuery.Location = new System.Drawing.Point(196, 3);
+            btnRunUserActivityQuery.Location = new System.Drawing.Point(318, 3);
             btnRunUserActivityQuery.Name = "btnRunUserActivityQuery";
             btnRunUserActivityQuery.Size = new System.Drawing.Size(94, 23);
             btnRunUserActivityQuery.TabIndex = 2;
@@ -805,7 +812,7 @@
             // 
             panelUserActivityParamCritic.Controls.Add(comboAnalyticsCriticSelect);
             panelUserActivityParamCritic.Controls.Add(lblSelectCritic);
-            panelUserActivityParamCritic.Location = new System.Drawing.Point(528, 3);
+            panelUserActivityParamCritic.Location = new System.Drawing.Point(528, 40);
             panelUserActivityParamCritic.Name = "panelUserActivityParamCritic";
             panelUserActivityParamCritic.Size = new System.Drawing.Size(249, 39);
             panelUserActivityParamCritic.TabIndex = 7;
@@ -833,7 +840,7 @@
             // panelUserActivityParamRole
             // 
             panelUserActivityParamRole.Controls.Add(comboUserActivityRole);
-            panelUserActivityParamRole.Location = new System.Drawing.Point(669, 48);
+            panelUserActivityParamRole.Location = new System.Drawing.Point(669, 151);
             panelUserActivityParamRole.Name = "panelUserActivityParamRole";
             panelUserActivityParamRole.Size = new System.Drawing.Size(108, 29);
             panelUserActivityParamRole.TabIndex = 5;
@@ -854,8 +861,50 @@
             dataGridUserActivity.Location = new System.Drawing.Point(0, 0);
             dataGridUserActivity.Name = "dataGridUserActivity";
             dataGridUserActivity.ReadOnly = true;
-            dataGridUserActivity.Size = new System.Drawing.Size(780, 341);
+            dataGridUserActivity.Size = new System.Drawing.Size(780, 345);
             dataGridUserActivity.TabIndex = 3;
+            // 
+            // panelUserActivityParamDateRange
+            // 
+            panelUserActivityParamDateRange.Controls.Add(label1);
+            panelUserActivityParamDateRange.Controls.Add(label2);
+            panelUserActivityParamDateRange.Controls.Add(dtpUserActivityEndDate);
+            panelUserActivityParamDateRange.Controls.Add(dtpUserActivityStartDate);
+            panelUserActivityParamDateRange.Location = new System.Drawing.Point(571, 85);
+            panelUserActivityParamDateRange.Name = "panelUserActivityParamDateRange";
+            panelUserActivityParamDateRange.Size = new System.Drawing.Size(206, 60);
+            panelUserActivityParamDateRange.TabIndex = 8;
+            panelUserActivityParamDateRange.Visible = false;
+            // 
+            // label1
+            // 
+            label1.Location = new System.Drawing.Point(5, 36);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(62, 19);
+            label1.TabIndex = 3;
+            label1.Text = "End Date:";
+            // 
+            // label2
+            // 
+            label2.Location = new System.Drawing.Point(5, 7);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(62, 19);
+            label2.TabIndex = 2;
+            label2.Text = "Start Date:";
+            // 
+            // dtpUserActivityEndDate
+            // 
+            dtpUserActivityEndDate.Location = new System.Drawing.Point(73, 32);
+            dtpUserActivityEndDate.Name = "dtpUserActivityEndDate";
+            dtpUserActivityEndDate.Size = new System.Drawing.Size(127, 23);
+            dtpUserActivityEndDate.TabIndex = 1;
+            // 
+            // dtpUserActivityStartDate
+            // 
+            dtpUserActivityStartDate.Location = new System.Drawing.Point(73, 3);
+            dtpUserActivityStartDate.Name = "dtpUserActivityStartDate";
+            dtpUserActivityStartDate.Size = new System.Drawing.Size(127, 23);
+            dtpUserActivityStartDate.TabIndex = 0;
             // 
             // AdminDashboardForm
             // 
@@ -892,8 +941,15 @@
             panelUserActivityParamCritic.ResumeLayout(false);
             panelUserActivityParamRole.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridUserActivity).EndInit();
+            panelUserActivityParamDateRange.ResumeLayout(false);
             ResumeLayout(false);
         }
+
+        private System.Windows.Forms.Panel panelUserActivityParamDateRange;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DateTimePicker dtpUserActivityEndDate;
+        private System.Windows.Forms.DateTimePicker dtpUserActivityStartDate;
 
         private System.Windows.Forms.Panel panelUserActivityParamCritic;
         private System.Windows.Forms.ComboBox comboAnalyticsCriticSelect;

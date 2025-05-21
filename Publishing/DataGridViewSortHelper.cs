@@ -4,16 +4,10 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace PublishingSystem.UI.Helpers // Or any suitable namespace
+namespace PublishingSystem.UI.Helpers
 {
     public static class DataGridViewSortHelper
     {
-        // These dictionaries will now be managed per DataGridView instance passed to the Sort method.
-        // We'll use a way to associate them with the DataGridView, perhaps using the Tag property or
-        // by making the calling form responsible for holding its own state dictionaries if preferred.
-
-        // For simplicity, let's have the helper manage its own state for DataGridViews it has sorted.
-        // This makes the calling code cleaner.
         private static readonly Dictionary<DataGridView, SortOrder> _sortOrders = new Dictionary<DataGridView, SortOrder>();
         private static readonly Dictionary<DataGridView, string> _lastSortedColumnNames = new Dictionary<DataGridView, string>();
 

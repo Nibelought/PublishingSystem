@@ -60,7 +60,8 @@ namespace PublishingSystem.UI
             InactiveUsersByRole,
             BooksAwaitingAssignment,
             EmployeeWorkload,
-            ReviewsByCritic // Will use comboAnalyticsCriticSelect
+            ReviewsByCritic,
+            ReviewsByCriticInDateRange
         }
 
         public AdminDashboardForm(User admin)
@@ -601,8 +602,8 @@ namespace PublishingSystem.UI
                 comboBookAnalyticsQuery.Items.Add(new QueryDropDownItem { Text = "Select a report...", QueryType = BookAnalyticsQueryType.SelectPrompt });
                 comboBookAnalyticsQuery.Items.Add(new QueryDropDownItem { Text = "Books by Age Restriction", QueryType = BookAnalyticsQueryType.BooksByAgeRestriction });
                 comboBookAnalyticsQuery.Items.Add(new QueryDropDownItem { Text = "Book Count by State", QueryType = BookAnalyticsQueryType.BookCountByState });
-                comboBookAnalyticsQuery.Items.Add(new QueryDropDownItem { Text = "Books Published (Date Range)", QueryType = BookAnalyticsQueryType.BooksPublishedBetweenDates });
-                comboBookAnalyticsQuery.Items.Add(new QueryDropDownItem { Text = "Reviews by Book (Select Book)", QueryType = BookAnalyticsQueryType.ReviewsByBook });
+                comboBookAnalyticsQuery.Items.Add(new QueryDropDownItem { Text = "Books Published for the period", QueryType = BookAnalyticsQueryType.BooksPublishedBetweenDates });
+                comboBookAnalyticsQuery.Items.Add(new QueryDropDownItem { Text = "Reviews by Book", QueryType = BookAnalyticsQueryType.ReviewsByBook });
                 comboBookAnalyticsQuery.DisplayMember = "Text";
                 comboBookAnalyticsQuery.ValueMember = "QueryType"; // Ensure QueryDropDownItem has QueryType property
                 comboBookAnalyticsQuery.SelectedIndex = 0;
@@ -618,7 +619,8 @@ namespace PublishingSystem.UI
                 comboUserActivityQuery.Items.Add(new QueryDropDownItem { Text = "Inactive Users by Role", QueryType = UserActivityQueryType.InactiveUsersByRole });
                 comboUserActivityQuery.Items.Add(new QueryDropDownItem { Text = "Books Awaiting Assignment", QueryType = UserActivityQueryType.BooksAwaitingAssignment });
                 comboUserActivityQuery.Items.Add(new QueryDropDownItem { Text = "Employee Workload", QueryType = UserActivityQueryType.EmployeeWorkload });
-                comboUserActivityQuery.Items.Add(new QueryDropDownItem { Text = "Reviews by Critic (Select Critic)", QueryType = UserActivityQueryType.ReviewsByCritic });
+                comboUserActivityQuery.Items.Add(new QueryDropDownItem { Text = "Reviews by Critic", QueryType = UserActivityQueryType.ReviewsByCritic });
+                comboUserActivityQuery.Items.Add(new QueryDropDownItem { Text = "Reviews by Critic for the period", QueryType = UserActivityQueryType.ReviewsByCriticInDateRange });
                 comboUserActivityQuery.DisplayMember = "Text";
                 comboUserActivityQuery.ValueMember = "QueryType";
                 comboUserActivityQuery.SelectedIndex = 0;
@@ -647,23 +649,24 @@ namespace PublishingSystem.UI
                 comboUserActivityRole.Items.AddRange(new[] { "author", "editor", "critic", "designer" });
                 comboUserActivityRole.SelectedIndex = 0;
             }
-            PopulateAnalyticsBookSelectComboBox(); // New method
-            PopulateAnalyticsCriticSelectComboBox(); // New method
+            PopulateAnalyticsBookSelectComboBox();
+            PopulateAnalyticsCriticSelectComboBox();
 
             if (dtpAnalyticsStartDate != null) dtpAnalyticsStartDate.Format = DateTimePickerFormat.Short;
             if (dtpAnalyticsEndDate != null) dtpAnalyticsEndDate.Format = DateTimePickerFormat.Short;
+            if (dtpUserActivityStartDate != null) dtpUserActivityStartDate.Format = DateTimePickerFormat.Short;
+            if (dtpUserActivityEndDate != null) dtpUserActivityEndDate.Format = DateTimePickerFormat.Short;
         }
 
         private void HideAllAnalyticsParameterPanels()
         {
             if(panelAnalyticsParamDateRange != null) panelAnalyticsParamDateRange.Visible = false;
             if(panelAnalyticsParamAge != null) panelAnalyticsParamAge.Visible = false;
-            if(panelAnalyticsParamBook != null) panelAnalyticsParamBook.Visible = false; // This panel was removed from your UI spec for BookAnalytics
-            if(panelAnalyticsParamBook != null) panelAnalyticsParamBook.Visible = false; // New panel for selecting book
+            if(panelAnalyticsParamBook != null) panelAnalyticsParamBook.Visible = false;
 
             if(panelUserActivityParamRole != null) panelUserActivityParamRole.Visible = false;
-            if(panelUserActivityParamCritic != null) panelUserActivityParamCritic.Visible = false; // This panel was removed
-            if(panelUserActivityParamCritic != null) panelUserActivityParamCritic.Visible = false; // New panel for selecting critic
+            if(panelUserActivityParamCritic != null) panelUserActivityParamCritic.Visible = false;
+            if(panelUserActivityParamDateRange != null) panelUserActivityParamDateRange.Visible = false;
         }
 
         private void PopulateAnalyticsBookSelectComboBox()
@@ -732,8 +735,13 @@ namespace PublishingSystem.UI
                     if (panelUserActivityParamRole != null) panelUserActivityParamRole.Visible = true;
                     break;
                 case UserActivityQueryType.ReviewsByCritic:
-                    if (panelUserActivityParamCritic != null) panelUserActivityParamCritic.Visible = true; // Show critic selection panel
+                    if (panelUserActivityParamCritic != null) panelUserActivityParamCritic.Visible = true;
                     break;
+                case UserActivityQueryType.ReviewsByCriticInDateRange:
+                    if (panelUserActivityParamCritic != null) panelUserActivityParamCritic.Visible = true;
+                    if (panelUserActivityParamDateRange != null) panelUserActivityParamDateRange.Visible = true;
+                    break;
+
             }
         }
 
@@ -785,7 +793,6 @@ namespace PublishingSystem.UI
                             result = connection.Query<SimpleBookReportItem>(sql, new { StartDate = startDate, EndDate = endDate }).ToList();
                             break;
                         case BookAnalyticsQueryType.ReviewsByBook:
-                            string bookIdStr = Interaction.InputBox("Enter Book ID:", "Reviews by Book", "1");
                             if (comboAnalyticsBookSelect == null || comboAnalyticsBookSelect.SelectedValue == null) { MessageBox.Show("Please select a book."); return; }
                             int bookIdRev = (int)comboAnalyticsBookSelect.SelectedValue;
                             sql = @"SELECT r.id AS ReviewId, r.date_time as DateTime, c.first_name || ' ' || c.last_name AS CriticName, 
@@ -865,15 +872,51 @@ namespace PublishingSystem.UI
                             result = connection.Query<EmployeeWorkloadItem>(sql).ToList();
                             break;
                          case UserActivityQueryType.ReviewsByCritic:
-                            string criticIdStr = Interaction.InputBox("Enter Critic ID:", "Reviews by Critic", "1");
                             if (comboAnalyticsCriticSelect == null || comboAnalyticsCriticSelect.SelectedValue == null) { MessageBox.Show("Please select a critic."); return; }
                             int criticIdRev = (int)comboAnalyticsCriticSelect.SelectedValue;
-                            sql = @"SELECT r.id AS ReviewId, r.date_time as DateTime, b.name AS BookName,
+                            sql = @"SELECT r.id AS ReviewId, r.date_time as DateTime,
+                                           c.first_name || ' ' || c.last_name AS CriticName,
+                                           b.name AS BookName,
                                            r.grade_book AS GradeBook, r.grade_cover AS GradeCover, r.text AS ReviewTextRtf 
-                                    FROM review r JOIN book b ON r.id_book = b.id 
-                                    WHERE r.id_critic = @CriticIdParam ORDER BY r.date_time DESC;";
+                                    FROM review r JOIN book b ON r.id_book = b.id
+                                    JOIN critic c ON r.id_critic = c.id
+                                    WHERE r.id_critic = @CriticIdParam
+                                    ORDER BY r.date_time DESC;";
                             result = connection.Query<SimpleReviewReportItem>(sql, new { CriticIdParam = criticIdRev }).ToList();
                             break;
+                         case UserActivityQueryType.ReviewsByCriticInDateRange: // NEW CASE
+                            if (comboAnalyticsCriticSelect == null || comboAnalyticsCriticSelect.SelectedValue == null) { MessageBox.Show("Please select a critic."); return; }
+                            if (dtpUserActivityStartDate == null || dtpUserActivityEndDate == null) // Check if date pickers exist
+                            {
+                                MessageBox.Show("Елементи керування діапазоном дат не знайдені.", "Помилка UI", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+
+                            int selectedCriticId = (int)comboAnalyticsCriticSelect.SelectedValue;
+                            DateTime startDate = dtpUserActivityStartDate.Value.Date;
+                            DateTime endDate = dtpUserActivityEndDate.Value.Date.AddDays(1).AddTicks(-1);
+                            
+                            if (startDate > endDate) { MessageBox.Show("Start date must be before end date."); return; }
+
+                            sql = @"SELECT r.id AS ReviewId, r.date_time as DateTime,
+                                           c.first_name || ' ' || c.last_name AS CriticName,
+                                           b.name AS BookName,
+                                           r.grade_book AS GradeBook, r.grade_cover AS GradeCover, r.text AS ReviewTextRtf
+                                    FROM review r
+                                    JOIN book b ON r.id_book = b.id
+                                    JOIN critic c ON r.id_critic = c.id
+                                    WHERE r.id_critic = @CriticIdParam
+                                      AND r.date_time >= @StartDateParam
+                                      AND r.date_time <= @EndDateParam
+                                    ORDER BY r.date_time DESC;";
+                            result = connection.Query<SimpleReviewReportItem>(sql, new
+                            {
+                                CriticIdParam = selectedCriticId,
+                                StartDateParam = startDate,
+                                EndDateParam = endDate
+                            }).ToList();
+                            break;
+
                     }
                 }
                 dataGridUserActivity.DataSource = result;
