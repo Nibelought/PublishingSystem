@@ -11,7 +11,7 @@ namespace PublishingSystem.DAL
         private const string BaseReviewSelectSql = @"
             SELECT
                 r.id AS Id, r.id_critic AS IdCritic, r.id_book AS IdBook,
-                r.date_time AS DateTime, r.text AS RtfText, -- Читаем RTF из БД
+                r.date_time AS DateTime, r.text AS RtfText,
                 r.grade_book AS GradeBook, r.grade_cover AS GradeCover,
                 c.first_name || ' ' || c.last_name AS CriticName,
                 b.name AS BookName
