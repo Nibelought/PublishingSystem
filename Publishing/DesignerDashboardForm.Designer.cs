@@ -112,9 +112,9 @@ partial class DesignerDashboardForm
         // 
         // pictureBoxCoverPreview
         // 
-        pictureBoxCoverPreview.Location = new System.Drawing.Point(243, 3);
+        pictureBoxCoverPreview.Location = new System.Drawing.Point(339, 3);
         pictureBoxCoverPreview.Name = "pictureBoxCoverPreview";
-        pictureBoxCoverPreview.Size = new System.Drawing.Size(414, 205);
+        pictureBoxCoverPreview.Size = new System.Drawing.Size(318, 205);
         pictureBoxCoverPreview.TabIndex = 2;
         pictureBoxCoverPreview.TabStop = false;
         // 

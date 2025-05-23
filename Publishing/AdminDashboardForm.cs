@@ -280,7 +280,7 @@ namespace PublishingSystem.UI
                 return;
             }
 
-            var confirm = MessageBox.Show("Подтвердите правильность введённых данных", "Подтверждение", MessageBoxButtons.YesNo);
+            var confirm = MessageBox.Show("Confirm the correctness of the entered data", "Confirmation", MessageBoxButtons.YesNo);
             if (confirm != DialogResult.Yes) return;
             
             try
@@ -446,7 +446,7 @@ namespace PublishingSystem.UI
             catch (Exception ex) { MessageBox.Show($"Error deleting book: {ex.Message}"); }
         }
 
-        // Обработчик для кнопки "Deep Analytics"
+        // Handler for “Deep Analytics” button
         private void BtnDeepAnalytics_Click(object sender, EventArgs e)
         {
             if (dataGridBooks.SelectedRows.Count != 1)
@@ -455,7 +455,7 @@ namespace PublishingSystem.UI
                 return;
             }
 
-            // Получаем выбранную книгу. Убедитесь, что ваш DataGridView биндится к списку объектов Book.
+            // Get the selected book. Make sure DataGridView binds to the Book object list
             if (!(dataGridBooks.SelectedRows[0].DataBoundItem is Book selectedBookObject))
             {
                 MessageBox.Show("Could not retrieve book data from the selected row.", "Data Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -464,9 +464,8 @@ namespace PublishingSystem.UI
             int bookId = selectedBookObject.Id;
 
             BookAnalyticsReportData reportData = null;
-            using (var connection = DAL.DbContext.GetConnection()) // Используем ваш DbContext
+            using (var connection = DAL.DbContext.GetConnection())
             {
-                // SQL-запрос №9 (Comprehensive Book Report - из предыдущих ответов)
                 string sql = @"
                     WITH BookReviewsAvg AS (
                         SELECT id_book, AVG(grade_book) AS avg_book_grade_for_this_book, AVG(grade_cover) AS avg_cover_grade_for_this_book, COUNT(id) AS total_reviews_for_this_book
@@ -525,7 +524,7 @@ namespace PublishingSystem.UI
             }
         }
 
-        // Обработчик события выбора строки в dataGridBooks (на вкладке "Books")
+        // Event handler of row selection event in dataGridBooks (on the “Books” tab)
         private void DataGridBooks_SelectionChanged_Admin(object sender, EventArgs e)
         {
             bool bookSelected = dataGridBooks.SelectedRows.Count == 1;
